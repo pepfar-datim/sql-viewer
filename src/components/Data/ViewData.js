@@ -1,0 +1,190 @@
+import { useDataEngine, useDataQuery } from "@dhis2/app-runtime";
+import { Button, IconArrowLeft24, IconMore24 } from "@dhis2/ui";
+import PropTypes from "prop-types";
+import React, { useState, createRef } from "react";
+import { Link } from "react-router-dom";
+import { executeQuery } from "../../api/miscellaneous";
+import { extractVariables } from "../../services/extractVariables";
+import Layout from "../Layout";
+import DataWrapper from "./DataWrapper";
+import LinksMenu from "./LinksMenu";
+import VariablesDrawerMenu from "./VariablesDrawerMenu";
+import VariablesSummaryLine from "./VariablesSummaryLine";
+
+const sqlViewDetail = {
+  sqlView: {
+    resource: "sqlViews",
+    id: ({ id }) => id,
+    params: {
+      paging: "false",
+      fields: "id,name,type,sqlQuery",
+    },
+  },
+};
+
+const VIEW_TYPE = "VIEW";
+const QUERY_TYPE = "QUERY";
+
+const ViewData = ({ match }) => {
+  const engine = useDataEngine();
+  const id = match.params.id;
+  const [variablesDrawerOpen, setVariablesDrawerOpen] = useState(true);
+  const [variables, setVariables] = useState({});
+  const [queryExecuted, setQueryExecuted] = useState(false);
+  const [linksMenuOpen, setLinksMenuOpen] = useState(false);
+
+  const toggleLinksMenu = () => {
+    setLinksMenuOpen(!linksMenuOpen);
+  };
+
+  const prepView = async (d) => {
+    const extractedVariables = extractVariables(d.sqlView.sqlQuery);
+    setVariables(extractedVariables);
+
+    if (
+      d.sqlView.type !== QUERY_TYPE ||
+      Object.keys(extractedVariables).length === 0
+    ) {
+      setVariablesDrawerOpen(false);
+    }
+
+    if (d.sqlView.type === VIEW_TYPE) {
+      const resp = await executeQuery(engine, d.sqlView.id);
+      if (resp) {
+        setQueryExecuted(true);
+      }
+    } else {
+      setQueryExecuted(true);
+    }
+  };
+
+  const { loading, error, data } = useDataQuery(sqlViewDetail, {
+    variables: { id: id },
+    onComplete: prepView,
+  });
+
+  const updateVariable = (newVariable) => {
+    setVariables(Object.assign({}, variables, newVariable));
+  };
+
+  const toggleVariableDrawer = () => {
+    setVariablesDrawerOpen(!variablesDrawerOpen);
+  };
+
+  const moreButtonRef = createRef();
+
+  return (
+    <Layout>
+      <>
+        {(loading || !queryExecuted) && <span>...Loading</span>}
+        {error && <span>{error.message}</span>}
+        {data && queryExecuted && (
+          <div className="container">
+            <div
+              className={
+                variablesDrawerOpen ? "drawerWrapper" : "drawerWrapper inactive"
+              }
+            >
+              <VariablesDrawerMenu
+                variables={variables}
+                toggleVariableDrawer={toggleVariableDrawer}
+                updateVariable={updateVariable}
+              />
+              <div className="main">
+                <div>
+                  <div className="flexWrap">
+                    <span className="queryTitleText">{data.sqlView.name}</span>
+                    <div ref={moreButtonRef} className="buttonWrapLeft">
+                      <Button
+                        icon={<IconMore24 />}
+                        small
+                        onClick={() => {
+                          toggleLinksMenu();
+                        }}
+                      ></Button>
+                    </div>
+                    {linksMenuOpen && (
+                      <LinksMenu
+                        id={id}
+                        moreButtonRef={moreButtonRef}
+                        toggleLinksMenu={toggleLinksMenu}
+                      />
+                    )}
+                    <div className="backButtonWrap">
+                      <Link to={`/`} style={{ textDecoration: "none" }}>
+                        <Button icon={<IconArrowLeft24 />}>Back</Button>
+                      </Link>
+                    </div>
+                  </div>
+                  {Object.keys(variables).length > 0 &&
+                    !variablesDrawerOpen && (
+                      <VariablesSummaryLine
+                        variables={variables}
+                        toggleVariableDrawer={toggleVariableDrawer}
+                      />
+                    )}
+                  {
+                    <DataWrapper
+                      id={id}
+                      variables={variables}
+                      isView={data.sqlView.type === VIEW_TYPE}
+                    />
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </>
+      <style jsx>{`
+        .container {
+          width: 100%;
+          height: 100%;
+          font-size: 1rem;
+        }
+        .main {
+          margin-left: var(--spacers-dp16);
+          margin-top: var(--spacers-dp12);
+          margin-right: var(--spacers-dp16);
+          width: 100%;
+          overflow: auto;
+        }
+        .drawerWrapper {
+          position: relative;
+          display: flex;
+          overflow: hidden;
+          height: 100%;
+          top: 0;
+          left: 0;
+          transition: margin 0.6s cubic-bezier(0.42, 0, 0.58, 1);
+        }
+        .inactive {
+          margin-left: -300px;
+        }
+        .flexWrap {
+          display: flex;
+          align-items: center;
+        }
+        .queryTitleText {
+          font-size: 24px;
+          font-weight: 700;
+          color: var(--colors-grey800);
+          margin: var(--spacers-dp12) 0;
+          line-height: 20px;
+        }
+        .buttonWrapLeft {
+          margin-left: var(--spacers-dp12);
+        }
+        .backButtonWrap {
+          margin-left: auto;
+        }
+      `}</style>
+    </Layout>
+  );
+};
+
+ViewData.propTypes = {
+  match: PropTypes.object,
+};
+
+export default ViewData;
