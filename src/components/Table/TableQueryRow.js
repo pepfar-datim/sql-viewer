@@ -1,3 +1,4 @@
+import i18n from '@dhis2/d2-i18n'
 import { Button, IconSync24 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -17,7 +18,7 @@ const TableQueryRow = ({ setSearchText, refreshQuery }) => (
                                 refreshQuery()
                             }}
                         >
-                            Refresh Query
+                            {i18n.t('Refresh Query')}
                         </Button>
                     </div>
                 </div>

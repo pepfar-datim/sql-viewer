@@ -24,7 +24,10 @@ const CustomTable = ({
                     datim.filter(i =>
                         i === null
                             ? false
-                            : i.toString().indexOf(searchTerm) >= 0
+                            : i
+                                  .toString()
+                                  .toLowerCase()
+                                  .indexOf(searchTerm.toLowerCase()) >= 0
                     ).length > 0
             )
         )

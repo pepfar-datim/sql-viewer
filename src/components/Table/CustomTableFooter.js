@@ -1,3 +1,4 @@
+import i18n from '@dhis2/d2-i18n'
 import { Button, IconDownload16 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -21,7 +22,7 @@ const CustomTableFooter = ({
                         window.open(downloadURL)
                     }}
                 >
-                    Download CSV
+                    {i18n.t('Download CSV')}
                 </Button>
             )}
             <PaginationCustom

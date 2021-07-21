@@ -1,3 +1,4 @@
+import i18n from '@dhis2/d2-i18n'
 import { InputField, IconSearch24 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
@@ -24,7 +25,7 @@ const SearchField = ({ setSearchText }) => {
                 label={
                     <div className="labelContainer">
                         <IconSearch24 />
-                        <span>Search within query results</span>
+                        <span>{i18n.t('Search within query results')}</span>
                     </div>
                 }
                 value={searchInput}

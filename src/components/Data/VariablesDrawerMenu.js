@@ -1,4 +1,5 @@
-import { Button, InputField, IconSubtractCircle24 } from '@dhis2/ui'
+import i18n from '@dhis2/d2-i18n'
+import { Button, InputField, IconSubtractCircle24, IconSync24 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -6,6 +7,7 @@ const VariablesDrawerMenu = ({
     variables,
     toggleVariableDrawer,
     updateVariable,
+    refreshQuery,
 }) => (
     <>
         <div className="drawer">
@@ -15,9 +17,9 @@ const VariablesDrawerMenu = ({
                         icon={<IconSubtractCircle24 />}
                         small
                         onClick={toggleVariableDrawer}
-                    ></Button>
+                    />
                 </div>
-                <span className="variablesText">Variables</span>
+                <span className="variablesText">{i18n.t('Variables')}</span>
             </div>
             {Object.keys(variables).map(v => (
                 <InputField
@@ -29,6 +31,19 @@ const VariablesDrawerMenu = ({
                     inputWidth="80%"
                 />
             ))}
+            {refreshQuery !== null && (
+                <div className="rightButtonOuter">
+                    <Button
+                        icon={<IconSync24 />}
+                        primary
+                        onClick={() => {
+                            refreshQuery(variables)
+                        }}
+                    >
+                        {i18n.t('Refresh Query')}
+                    </Button>
+                </div>
+            )}
         </div>
         <style jsx>
             {`
@@ -53,12 +68,16 @@ const VariablesDrawerMenu = ({
                     font-weight: 500;
                     color: var(--colors-grey900);
                 }
+                .rightButtonOuter {
+                    margin-top: var(--spacers-dp8);
+                }
             `}
         </style>
     </>
 )
 
 VariablesDrawerMenu.propTypes = {
+    refreshQuery: PropTypes.func,
     toggleVariableDrawer: PropTypes.func,
     updateVariable: PropTypes.func,
     variables: PropTypes.object,

@@ -1,4 +1,5 @@
 import { useDataEngine } from '@dhis2/app-runtime'
+import i18n from '@dhis2/d2-i18n'
 import { Menu, MenuItem, Popover, IconEdit24 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -39,7 +40,7 @@ const LinksMenu = ({ id, moreButtonRef, toggleLinksMenu }) => {
                 <MenuItem
                     icon={<CodeIcon />}
                     dense
-                    label="open in api"
+                    label={i18n.t('open in api')}
                     onClick={() => {
                         window.open(getApiLink(engine, id))
                     }}
@@ -47,7 +48,7 @@ const LinksMenu = ({ id, moreButtonRef, toggleLinksMenu }) => {
                 <MenuItem
                     icon={<IconEdit24 />}
                     dense
-                    label="open in maintenance app"
+                    label={i18n.t('open in maintenance app')}
                     onClick={() => {
                         window.open(getEditLink(engine, id))
                     }}

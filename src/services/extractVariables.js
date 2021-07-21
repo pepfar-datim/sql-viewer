@@ -10,17 +10,6 @@ export const extractVariables = query => {
     return variables
 }
 
-export const parameterizeVariables = varObj => {
-    var varString = ''
-    Object.keys(varObj).forEach(k => {
-        varString += `&var=${k}:${varObj[k]}`
-        /*
-		if (varString.length === 0) {
-			varString +=`?var=${k}:${varObj[k]}`
-		} else {
-			varString += `&var=${k}:${varObj[k]}`
-		}
-		*/
-    })
-    return varString
+export const parameterizeVariablesQuery = varObj => {
+    return Object.keys(varObj).map(k => `${k}:${varObj[k]}`)
 }

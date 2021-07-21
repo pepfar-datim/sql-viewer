@@ -1,8 +1,9 @@
 import { useDataEngine, useDataQuery } from '@dhis2/app-runtime'
+import { CircularLoader } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { executeQuery } from '../../api/miscellaneous'
-import { parameterizeVariables } from '../../services/extractVariables'
+import { parameterizeVariablesQuery } from '../../services/extractVariables'
 import CustomTable from '../Table/CustomTable'
 import TableQueryRow from '../Table/TableQueryRow'
 import ErrorMessage from './ErrorMessage'
@@ -11,41 +12,53 @@ const sqlDataQuery = {
     sqlData: {
         resource: 'sqlViews/',
         id: ({ id }) => id,
+        params: ({ queryVariables }) => ({
+            paging: false,
+            var: queryVariables,
+        }),
     },
 }
 
-const DataWrapper = ({ variables, id, isView }) => {
+const DataWrapper = ({ variables, id, isView, setRefreshQuery }) => {
     const [variablesUsed, setVariablesUsed] = useState({})
     const engine = useDataEngine()
     const { loading, error, data, refetch } = useDataQuery(sqlDataQuery, {
-        variables: { id: `${id}/data?paging=false` },
+        variables: { id: `${id}/data` },
     })
 
-    const refreshQuery = async () => {
+    const refreshQuery = async givenVariables => {
+        let refreshVariables = variables
+        if (givenVariables !== undefined) {
+            refreshVariables = givenVariables
+        }
         if (isView) {
-            await executeQuery(engine, id)
-            refetch({ id: `${id}/data?paging=false` })
+            executeQuery.resource = `sqlViews/${id}/execute`
+            await engine.mutate(executeQuery)
+            refetch({ id: `${id}/data` })
         } else {
-            const hackeyID = `${id}/data?paging=false${parameterizeVariables(
-                variables
-            )}`
-            setVariablesUsed(variables)
-            refetch({ id: hackeyID })
+            setVariablesUsed(refreshVariables)
+            refetch({
+                id: `${id}/data`,
+                queryVariables: parameterizeVariablesQuery(refreshVariables),
+            })
         }
     }
 
-    // move to 'api'?
+    useEffect(() => {
+        setRefreshQuery(() => givenVariables => refreshQuery(givenVariables))
+    }, [])
+
     const getDownloadURL = () => {
         return `${engine.link.baseUrl}/${
             engine.link.apiPath
-        }/sqlViews/${id}/data.csv?paging=false${parameterizeVariables(
+        }/sqlViews/${id}/data.csv?paging=false&var=${parameterizeVariablesQuery(
             variablesUsed
-        )}`
+        ).join(',')}`
     }
 
     return (
         <>
-            {loading && <p>Loading...</p>}
+            {loading && <CircularLoader />}
             {error && (
                 <>
                     <TableQueryRow refreshQuery={refreshQuery} />
@@ -68,6 +81,7 @@ const DataWrapper = ({ variables, id, isView }) => {
 DataWrapper.propTypes = {
     id: PropTypes.string,
     isView: PropTypes.bool,
+    setRefreshQuery: PropTypes.func,
     variables: PropTypes.object,
 }
 

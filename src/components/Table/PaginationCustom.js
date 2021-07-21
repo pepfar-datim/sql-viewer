@@ -1,3 +1,4 @@
+import i18n from '@dhis2/d2-i18n'
 import {
     Button,
     ButtonStrip,
@@ -8,6 +9,7 @@ import {
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
+
 const PaginationCustom = ({
     maxRows,
     setMaxRows,
@@ -16,7 +18,7 @@ const PaginationCustom = ({
     pagePosition,
     setPagePosition,
 }) => {
-    const allOption = 'All'
+    const allOption = i18n.t('All')
     const displayCountOptions = [10, 20, 50, allOption]
 
     const updateMaxRows = countSelection => {
@@ -30,14 +32,19 @@ const PaginationCustom = ({
     return (
         <>
             <div className="paginationDiv">
-                <span>{`Displaying ${Math.min(
-                    maxRows,
-                    rowCount
-                )} of ${totalRows} rows `}</span>
-                <span className="paginationElementHalf">|</span>
-                <span className="paginationElementHalf">{`Page ${
-                    pagePosition + 1
-                } of ${Math.ceil(rowCount / maxRows)}`}</span>
+                <span>
+                    {i18n.t('Displaying {{current}} of {{total}} rows', {
+                        current: Math.min(maxRows, rowCount),
+                        total: totalRows,
+                    })}
+                </span>
+                <span className="paginationElementHalf">{` | `}</span>
+                <span className="paginationElementHalf">
+                    {i18n.t('Page {{position}} of {{maxPage}}', {
+                        position: pagePosition + 1,
+                        maxPage: Math.ceil(rowCount / maxRows),
+                    })}
+                </span>
                 <div className="paginationElement">
                     <ButtonStrip>
                         <Button
@@ -47,7 +54,7 @@ const PaginationCustom = ({
                                 setPagePosition(pagePosition - 1)
                             }}
                         >
-                            Previous
+                            {i18n.t('Previous')}
                         </Button>
                         <Button
                             icon={<IconArrowRight16 />}
@@ -59,13 +66,13 @@ const PaginationCustom = ({
                                 setPagePosition(pagePosition + 1)
                             }}
                         >
-                            Next
+                            {i18n.t('Next')}
                         </Button>
                     </ButtonStrip>
                 </div>
                 <div className="paginationDiv paginationElement">
                     <SingleSelect
-                        prefix="Rows to display: "
+                        prefix={`${i18n.t('Rows to display')}: `}
                         selected={
                             maxRows === totalRows
                                 ? allOption

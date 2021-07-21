@@ -1,3 +1,4 @@
+import i18n from '@dhis2/d2-i18n'
 import { Button, Tag, IconAddCircle24 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -10,14 +11,16 @@ const VariablesSummaryLine = ({ variables, toggleVariableDrawer }) => (
                     icon={<IconAddCircle24 />}
                     small
                     onClick={toggleVariableDrawer}
-                ></Button>
+                />
             </div>
-            <span className="variablesText elementSpacer">Variables:</span>
+            <span className="variablesText elementSpacer">{`${i18n.t(
+                'Variables'
+            )}:`}</span>
             {Object.keys(variables).map(k => (
                 <div key={`variableTagDiv_${k}`} className="elementSpacer">
                     <Tag>
                         <span className="variableNameBold">{`${k}: `}</span>
-                        <span>{variables[k] || 'undefined'}</span>
+                        <span>{variables[k] || i18n.t('undefined')}</span>
                     </Tag>
                 </div>
             ))}

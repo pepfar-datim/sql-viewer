@@ -16,7 +16,7 @@ const CustomTableRow = ({ row }) => (
     <TableRow>
         {row.map(d => {
             if (d === null) {
-                return <TableCell></TableCell>
+                return <TableCell />
             }
             if (isValidElement(d)) {
                 return <TableCell>{d}</TableCell>
@@ -54,28 +54,25 @@ const CustomTableBody = ({ maxRows, pagePosition, rows, headers }) => {
         if (!sortedColumn.column) {
             return rows
         }
+
+        const searchSettings = { numeric: true, sensitivity: 'base' }
+
         const rowsToSort = [...rows]
         const i = headers.map(h => h.name).indexOf(sortedColumn.column)
         if (sortedColumn.up) {
             return rowsToSort.sort((a, b) =>
                 b[i] === null || b[i] === ''
                     ? -1
-                    : a[i] > b[i]
-                    ? 1
-                    : b[i] > a[i]
-                    ? -1
-                    : 0
+                    : a[i]
+                          .toString()
+                          .localeCompare(b[i], undefined, searchSettings)
             )
         }
         // if using, rewrite as function to avoid duplication
         return rowsToSort.sort((a, b) =>
             b[i] === null || b[i] === ''
                 ? -1
-                : b[i] > a[i]
-                ? 1
-                : a[i] > b[i]
-                ? -1
-                : 0
+                : b[i].toString().localeCompare(a[i], undefined, searchSettings)
         )
     }
 

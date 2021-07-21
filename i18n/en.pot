@@ -5,11 +5,62 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-05-05T13:34:55.448Z\n"
-"PO-Revision-Date: 2021-05-05T13:34:55.448Z\n"
+"POT-Creation-Date: 2021-07-20T20:40:29.502Z\n"
+"PO-Revision-Date: 2021-07-20T20:40:29.502Z\n"
 
-msgid "Hello {{name}}"
-msgstr ""
+msgid "Variables must be filled out"
+msgstr "Variables must be filled out"
 
-msgid "Welcome to DHIS2!"
-msgstr ""
+msgid "Fill in variables to the left and refresh the query"
+msgstr "Fill in variables to the left and refresh the query"
+
+msgid "Query could not execute"
+msgstr "Query could not execute"
+
+msgid "open in api"
+msgstr "open in api"
+
+msgid "open in maintenance app"
+msgstr "open in maintenance app"
+
+msgid "Variables"
+msgstr "Variables"
+
+msgid "Refresh Query"
+msgstr "Refresh Query"
+
+msgid "undefined"
+msgstr "undefined"
+
+msgid "Back"
+msgstr "Back"
+
+msgid "name"
+msgstr "name"
+
+msgid "Select a SQL query to get started"
+msgstr "Select a SQL query to get started"
+
+msgid "Download CSV"
+msgstr "Download CSV"
+
+msgid "All"
+msgstr "All"
+
+msgid "Displaying {{current}} of {{total}} rows"
+msgstr "Displaying {{current}} of {{total}} rows"
+
+msgid "Page {{position}} of {{maxPage}}"
+msgstr "Page {{position}} of {{maxPage}}"
+
+msgid "Previous"
+msgstr "Previous"
+
+msgid "Next"
+msgstr "Next"
+
+msgid "Rows to display"
+msgstr "Rows to display"
+
+msgid "Search within query results"
+msgstr "Search within query results"

@@ -1,5 +1,6 @@
 import { useDataEngine, useDataQuery } from '@dhis2/app-runtime'
-import { Button, IconArrowLeft24, IconMore24 } from '@dhis2/ui'
+import i18n from '@dhis2/d2-i18n'
+import { Button, CircularLoader, IconArrowLeft24, IconMore24 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState, createRef } from 'react'
 import { Link } from 'react-router-dom'
@@ -32,6 +33,7 @@ const ViewData = ({ match }) => {
     const [variables, setVariables] = useState({})
     const [queryExecuted, setQueryExecuted] = useState(false)
     const [linksMenuOpen, setLinksMenuOpen] = useState(false)
+    const [refreshQuery, setRefreshQuery] = useState(null)
 
     const toggleLinksMenu = () => {
         setLinksMenuOpen(!linksMenuOpen)
@@ -49,7 +51,8 @@ const ViewData = ({ match }) => {
         }
 
         if (d.sqlView.type === VIEW_TYPE) {
-            const resp = await executeQuery(engine, d.sqlView.id)
+            executeQuery.resource = `sqlViews/${id}/execute`
+            const resp = await engine.mutate(executeQuery)
             if (resp) {
                 setQueryExecuted(true)
             }
@@ -76,7 +79,7 @@ const ViewData = ({ match }) => {
     return (
         <Layout>
             <>
-                {(loading || !queryExecuted) && <span>...Loading</span>}
+                {(loading || !queryExecuted) && <CircularLoader />}
                 {error && <span>{error.message}</span>}
                 {data && queryExecuted && (
                     <div className="container">
@@ -91,6 +94,7 @@ const ViewData = ({ match }) => {
                                 variables={variables}
                                 toggleVariableDrawer={toggleVariableDrawer}
                                 updateVariable={updateVariable}
+                                refreshQuery={refreshQuery}
                             />
                             <div className="main">
                                 <div>
@@ -108,7 +112,7 @@ const ViewData = ({ match }) => {
                                                 onClick={() => {
                                                     toggleLinksMenu()
                                                 }}
-                                            ></Button>
+                                            />
                                         </div>
                                         {linksMenuOpen && (
                                             <LinksMenu
@@ -129,7 +133,7 @@ const ViewData = ({ match }) => {
                                                 <Button
                                                     icon={<IconArrowLeft24 />}
                                                 >
-                                                    Back
+                                                    {i18n.t('Back')}
                                                 </Button>
                                             </Link>
                                         </div>
@@ -150,6 +154,7 @@ const ViewData = ({ match }) => {
                                             isView={
                                                 data.sqlView.type === VIEW_TYPE
                                             }
+                                            setRefreshQuery={setRefreshQuery}
                                         />
                                     }
                                 </div>

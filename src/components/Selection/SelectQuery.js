@@ -1,5 +1,6 @@
 import { DataQuery } from '@dhis2/app-runtime'
-import { Button, IconView24 } from '@dhis2/ui'
+import i18n from '@dhis2/d2-i18n'
+import { Button, CircularLoader, IconView24 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { Link } from 'react-router-dom'
@@ -24,7 +25,7 @@ ViewQueryButton.propTypes = {
 }
 
 const SelectQuery = () => {
-    const selectHeaders = [{ name: 'name' }]
+    const selectHeaders = [{ name: i18n.t('name') }]
 
     return (
         <DataQuery query={sqlViewsQuery}>
@@ -32,9 +33,9 @@ const SelectQuery = () => {
                 <>
                     <div className="innerContainer">
                         <h1 className="titleText">
-                            Select a SQL query to get started.
+                            {i18n.t('Select a SQL query to get started')}
                         </h1>
-                        {loading && <span>Loading...</span>}
+                        {loading && <CircularLoader />}
                         {error && <span>{`Error: ${error.message}`}</span>}
                         {data && (
                             <CustomTable
