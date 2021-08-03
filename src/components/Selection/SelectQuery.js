@@ -9,6 +9,9 @@ import CustomTable from '../Table/CustomTable'
 const sqlViewsQuery = {
     sql: {
         resource: 'sqlViews',
+        params: {
+            fields: 'id,name,displayName',
+        },
     },
 }
 
@@ -42,14 +45,20 @@ const SelectQuery = () => {
                                 searchable={true}
                                 tableData={data.sql.sqlViews.map(d => {
                                     return [
-                                        <Link
-                                            to={`/view/${d.id}`}
-                                            style={{ textDecoration: 'none' }}
-                                        >
-                                            <span style={{ color: 'black' }}>
-                                                {d.displayName}
-                                            </span>
-                                        </Link>,
+                                        <div key={`${d.id}_view`}>
+                                            <Link
+                                                to={`/view/${d.id}`}
+                                                style={{
+                                                    textDecoration: 'none',
+                                                }}
+                                            >
+                                                <span
+                                                    style={{ color: 'black' }}
+                                                >
+                                                    {d.displayName}
+                                                </span>
+                                            </Link>
+                                        </div>,
                                     ]
                                 })}
                                 tableColumns={selectHeaders}

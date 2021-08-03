@@ -12,26 +12,38 @@ import {
 import PropTypes from 'prop-types'
 import React, { useState, isValidElement } from 'react'
 
+const generateRandomKey = keyLength => {
+    let key = ''
+    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    for (let i = 0; i < keyLength; i++) {
+        key += chars[Math.floor(Math.random() * chars.length)]
+    }
+    return key
+}
+
 const CustomTableRow = ({ row }) => (
     <TableRow>
         {row.map(d => {
+            const randomKey = generateRandomKey(6)
             if (d === null) {
-                return <TableCell />
+                return <TableCell key={randomKey} />
             }
             if (isValidElement(d)) {
-                return <TableCell>{d}</TableCell>
+                return <TableCell key={randomKey}>{d}</TableCell>
             }
             if (typeof d === 'object') {
-                return <TableCell>{JSON.stringify(d)}</TableCell>
+                return (
+                    <TableCell key={randomKey}>{JSON.stringify(d)}</TableCell>
+                )
             }
 
-            return <TableCell>{d}</TableCell>
+            return <TableCell key={randomKey}>{d}</TableCell>
         })}
     </TableRow>
 )
 
 CustomTableRow.propTypes = {
-    row: PropTypes.object,
+    row: PropTypes.array,
 }
 
 const CustomTableBody = ({ maxRows, pagePosition, rows, headers }) => {
@@ -114,7 +126,10 @@ const CustomTableBody = ({ maxRows, pagePosition, rows, headers }) => {
                                 maxRows * (pagePosition + 1)
                             )
                             .map(row => (
-                                <CustomTableRow row={row} />
+                                <CustomTableRow
+                                    key={generateRandomKey(6)}
+                                    row={row}
+                                />
                             ))}
                     </TableBody>
                 </Table>

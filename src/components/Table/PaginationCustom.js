@@ -84,7 +84,7 @@ const PaginationCustom = ({
                     >
                         {displayCountOptions.map(k => (
                             <SingleSelectOption
-                                label={k}
+                                label={k.toString()}
                                 key={`row_count_select_${k}`}
                                 value={k.toString()}
                             />
