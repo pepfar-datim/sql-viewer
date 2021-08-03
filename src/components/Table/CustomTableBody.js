@@ -28,16 +28,21 @@ const CustomTableRow = ({ row }) => (
             if (d === null) {
                 return <TableCell key={randomKey} />
             }
-            if (isValidElement(d)) {
-                return <TableCell key={randomKey}>{d}</TableCell>
+
+            const displayItem = d.display || d
+
+            if (isValidElement(displayItem)) {
+                return <TableCell key={randomKey}>{displayItem}</TableCell>
             }
-            if (typeof d === 'object') {
+            if (typeof displayItem === 'object') {
                 return (
-                    <TableCell key={randomKey}>{JSON.stringify(d)}</TableCell>
+                    <TableCell key={randomKey}>
+                        {JSON.stringify(displayItem)}
+                    </TableCell>
                 )
             }
 
-            return <TableCell key={randomKey}>{d}</TableCell>
+            return <TableCell key={randomKey}>{displayItem}</TableCell>
         })}
     </TableRow>
 )
@@ -61,31 +66,26 @@ const CustomTableBody = ({ maxRows, pagePosition, rows, headers }) => {
         }
     }
 
-    // move
+    const performSort = (a, b) => {
+        const searchSettings = { numeric: true, sensitivity: 'base' }
+        if (a === null || a === '') return 1
+        a = a.text || a
+        if (b === null || b === '') return -1
+        b = b.text || b
+        return a.toString().localeCompare(b, undefined, searchSettings)
+    }
     const sortRows = rows => {
         if (!sortedColumn.column) {
             return rows
         }
 
-        const searchSettings = { numeric: true, sensitivity: 'base' }
-
         const rowsToSort = [...rows]
         const i = headers.map(h => h.name).indexOf(sortedColumn.column)
         if (sortedColumn.up) {
-            return rowsToSort.sort((a, b) =>
-                b[i] === null || b[i] === ''
-                    ? -1
-                    : a[i]
-                          .toString()
-                          .localeCompare(b[i], undefined, searchSettings)
-            )
+            return rowsToSort.sort((a, b) => performSort(a[i], b[i]))
         }
         // if using, rewrite as function to avoid duplication
-        return rowsToSort.sort((a, b) =>
-            b[i] === null || b[i] === ''
-                ? -1
-                : b[i].toString().localeCompare(a[i], undefined, searchSettings)
-        )
+        return rowsToSort.sort((a, b) => performSort(b[i], a[i]))
     }
 
     return (

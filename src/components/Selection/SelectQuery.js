@@ -1,7 +1,6 @@
 import { DataQuery } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import { Button, CircularLoader, IconView24 } from '@dhis2/ui'
-import PropTypes from 'prop-types'
+import { CircularLoader } from '@dhis2/ui'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import CustomTable from '../Table/CustomTable'
@@ -13,18 +12,6 @@ const sqlViewsQuery = {
             fields: 'id,name,displayName',
         },
     },
-}
-
-const ViewQueryButton = ({ id }) => (
-    <Link to={`/view/${id}`}>
-        <Button small icon={<IconView24 />}>
-            View
-        </Button>
-    </Link>
-)
-
-ViewQueryButton.propTypes = {
-    id: PropTypes.string,
 }
 
 const SelectQuery = () => {
@@ -45,20 +32,28 @@ const SelectQuery = () => {
                                 searchable={true}
                                 tableData={data.sql.sqlViews.map(d => {
                                     return [
-                                        <div key={`${d.id}_view`}>
-                                            <Link
-                                                to={`/view/${d.id}`}
-                                                style={{
-                                                    textDecoration: 'none',
-                                                }}
-                                            >
-                                                <span
-                                                    style={{ color: 'black' }}
-                                                >
-                                                    {d.displayName}
-                                                </span>
-                                            </Link>
-                                        </div>,
+                                        {
+                                            display: (
+                                                <div key={`${d.id}_view`}>
+                                                    <Link
+                                                        to={`/view/${d.id}`}
+                                                        style={{
+                                                            textDecoration:
+                                                                'none',
+                                                        }}
+                                                    >
+                                                        <span
+                                                            style={{
+                                                                color: 'black',
+                                                            }}
+                                                        >
+                                                            {d.displayName}
+                                                        </span>
+                                                    </Link>
+                                                </div>
+                                            ),
+                                            text: d.displayName,
+                                        },
                                     ]
                                 })}
                                 tableColumns={selectHeaders}
