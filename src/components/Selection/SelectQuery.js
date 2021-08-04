@@ -9,6 +9,7 @@ const sqlViewsQuery = {
     sql: {
         resource: 'sqlViews',
         params: {
+            paging: false,
             fields: 'id,name,displayName',
         },
     },
