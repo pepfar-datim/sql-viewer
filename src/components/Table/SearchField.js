@@ -1,9 +1,8 @@
-import i18n from '@dhis2/d2-i18n'
-import { InputField, IconSearch24 } from '@dhis2/ui'
+import { InputField } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 
-const SearchField = ({ setSearchText }) => {
+const SearchField = ({ searchableDescription, setSearchText }) => {
     const [searchInput, setSearchInput] = useState('')
     const [searchTextTimeout, setSearchTextTimeout] = useState('')
 
@@ -18,31 +17,18 @@ const SearchField = ({ setSearchText }) => {
     }
 
     return (
-        <>
-            <InputField
-                name="searchField"
-                onChange={e => setSearchTextWithDebounce(e.value)}
-                label={
-                    <div className="labelContainer">
-                        <IconSearch24 />
-                        <span>{i18n.t('Search within query results')}</span>
-                    </div>
-                }
-                value={searchInput}
-                inputWidth="400px"
-                className="variableInput"
-            />
-            <style jsx>{`
-                .labelContainer {
-                    display: flex;
-                    align-items: center;
-                }
-            `}</style>
-        </>
+        <InputField
+            name="searchField"
+            onChange={e => setSearchTextWithDebounce(e.value)}
+            placeholder={searchableDescription}
+            value={searchInput}
+            inputWidth="400px"
+        />
     )
 }
 
 SearchField.propTypes = {
+    searchableDescription: PropTypes.string,
     setSearchText: PropTypes.func,
 }
 

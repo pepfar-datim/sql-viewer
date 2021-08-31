@@ -6,6 +6,7 @@ import TableQueryRow from './TableQueryRow'
 
 const CustomTable = ({
     searchable,
+    searchableDescription,
     refreshQuery,
     tableData,
     tableColumns,
@@ -44,6 +45,7 @@ const CustomTable = ({
     return (
         <>
             <TableQueryRow
+                searchableDescription={searchableDescription}
                 setSearchText={searchable ? setSearchText : null}
                 refreshQuery={refreshQuery}
             />
@@ -74,6 +76,7 @@ CustomTable.propTypes = {
     downloadURL: PropTypes.string,
     refreshQuery: PropTypes.func,
     searchable: PropTypes.bool,
+    searchableDescription: PropTypes.string,
     tableColumns: PropTypes.array,
     tableData: PropTypes.array,
 }

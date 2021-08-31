@@ -4,10 +4,19 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import SearchField from './SearchField'
 
-const TableQueryRow = ({ setSearchText, refreshQuery }) => (
+const TableQueryRow = ({
+    searchableDescription,
+    setSearchText,
+    refreshQuery,
+}) => (
     <>
         <div className="queryStrip">
-            {setSearchText && <SearchField setSearchText={setSearchText} />}
+            {setSearchText && (
+                <SearchField
+                    searchableDescription={searchableDescription}
+                    setSearchText={setSearchText}
+                />
+            )}
             {refreshQuery && (
                 <div className="rightButtonOuter">
                     <div>
@@ -44,6 +53,7 @@ const TableQueryRow = ({ setSearchText, refreshQuery }) => (
 
 TableQueryRow.propTypes = {
     refreshQuery: PropTypes.func,
+    searchableDescription: PropTypes.string,
     setSearchText: PropTypes.func,
 }
 
