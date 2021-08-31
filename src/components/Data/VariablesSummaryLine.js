@@ -29,9 +29,11 @@ const VariablesSummaryLine = ({ variables, toggleVariableDrawer }) => (
             {`
                 .elementSpacer {
                     margin-right: var(--spacers-dp8);
+                    margin-bottom: var(--spacers-dp8);
                 }
                 .variablesLineWrap {
                     display: flex;
+                    flex-wrap: wrap;
                     align-items: center;
                     margin: var(--spacers-dp16) 0 var(--spacers-dp16)
                         var(--spacers-dp16);
