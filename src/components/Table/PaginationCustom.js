@@ -19,7 +19,7 @@ const PaginationCustom = ({
     setPagePosition,
 }) => {
     const allOption = i18n.t('All')
-    const displayCountOptions = [10, 20, 50, allOption]
+    const displayCountOptions = [10, 20, 50, 500, allOption]
 
     const updateMaxRows = countSelection => {
         if (countSelection === allOption) {

@@ -8,6 +8,7 @@ const CustomTableFooter = ({
     maxRows,
     setMaxRows,
     downloadURL,
+    enablePagination,
     rowCount,
     totalRows,
     pagePosition,
@@ -25,14 +26,16 @@ const CustomTableFooter = ({
                     {i18n.t('Download CSV')}
                 </Button>
             )}
-            <PaginationCustom
-                maxRows={maxRows}
-                setMaxRows={setMaxRows}
-                rowCount={rowCount}
-                totalRows={totalRows}
-                pagePosition={pagePosition}
-                setPagePosition={setPagePosition}
-            />
+            {enablePagination && (
+                <PaginationCustom
+                    maxRows={maxRows}
+                    setMaxRows={setMaxRows}
+                    rowCount={rowCount}
+                    totalRows={totalRows}
+                    pagePosition={pagePosition}
+                    setPagePosition={setPagePosition}
+                />
+            )}
         </div>
         <style jsx>{`
             .tableEnd {
@@ -45,6 +48,7 @@ const CustomTableFooter = ({
 
 CustomTableFooter.propTypes = {
     downloadURL: PropTypes.string,
+    enablePagination: PropTypes.bool,
     maxRows: PropTypes.number,
     pagePosition: PropTypes.number,
     rowCount: PropTypes.number,

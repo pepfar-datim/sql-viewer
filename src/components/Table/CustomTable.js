@@ -15,7 +15,9 @@ const CustomTable = ({
     const [filteredRows, setFilteredRows] = useState(tableData)
 
     const [pagePosition, setPagePosition] = useState(0)
-    const [maxRows, setMaxRows] = useState(10)
+    const [maxRows, setMaxRows] = useState(
+        tableData.length > 500 ? 500 : tableData.length
+    )
 
     const filterBySearch = (data, searchTerm) => {
         setPagePosition(0)
@@ -59,6 +61,7 @@ const CustomTable = ({
             />
             <CustomTableFooter
                 downloadURL={downloadURL}
+                enablePagination={tableData.length > 500 ? true : false}
                 maxRows={maxRows}
                 setMaxRows={setMaxRows}
                 rowCount={filteredRows.length}

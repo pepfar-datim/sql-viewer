@@ -5,8 +5,11 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-07-20T20:40:29.502Z\n"
-"PO-Revision-Date: 2021-07-20T20:40:29.502Z\n"
+"POT-Creation-Date: 2021-09-07T14:49:10.227Z\n"
+"PO-Revision-Date: 2021-09-07T14:49:10.227Z\n"
+
+msgid "Search within results"
+msgstr "Search within results"
 
 msgid "Variables must be filled out"
 msgstr "Variables must be filled out"
@@ -16,6 +19,9 @@ msgstr "Fill in variables to the left and refresh the query"
 
 msgid "Query could not execute"
 msgstr "Query could not execute"
+
+msgid "open in sql viewer"
+msgstr "open in sql viewer"
 
 msgid "open in api"
 msgstr "open in api"
@@ -38,8 +44,11 @@ msgstr "Back"
 msgid "name"
 msgstr "name"
 
-msgid "Select a SQL query to get started"
-msgstr "Select a SQL query to get started"
+msgid "SQL Views"
+msgstr "SQL Views"
+
+msgid "Search for a SQL view"
+msgstr "Search for a SQL view"
 
 msgid "Download CSV"
 msgstr "Download CSV"
@@ -61,6 +70,3 @@ msgstr "Next"
 
 msgid "Rows to display"
 msgstr "Rows to display"
-
-msgid "Search within query results"
-msgstr "Search within query results"
