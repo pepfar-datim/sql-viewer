@@ -2,12 +2,16 @@ import i18n from '@dhis2/d2-i18n'
 import { Button, IconSync24 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
+import PageCount from './PageCount'
 import SearchField from './SearchField'
 
 const TableQueryRow = ({
+    maxRows,
+    rowCount,
     searchableDescription,
     setSearchText,
     refreshQuery,
+    totalRows,
 }) => (
     <>
         <div className="queryStrip">
@@ -17,6 +21,13 @@ const TableQueryRow = ({
                     setSearchText={setSearchText}
                 />
             )}
+            <div className="pageCountContainer">
+                <PageCount
+                    maxRows={maxRows}
+                    rowCount={rowCount}
+                    totalRows={totalRows}
+                />
+            </div>
             {refreshQuery && (
                 <div className="rightButtonOuter">
                     <div>
@@ -38,12 +49,14 @@ const TableQueryRow = ({
             {`
                 .queryStrip {
                     display: flex;
-                    align-items: center;
+                    align-items: flex-end;
                     margin-top: var(--spacers-dp12);
                     min-height: 60px;
                 }
+                .pageCountContainer {
+                    margin-left: var(--spacers-dp16);
+                }
                 .rightButtonOuter {
-                    margin-top: auto;
                     margin-left: auto;
                 }
             `}
@@ -52,9 +65,12 @@ const TableQueryRow = ({
 )
 
 TableQueryRow.propTypes = {
+    maxRows: PropTypes.num,
     refreshQuery: PropTypes.func,
+    rowCount: PropTypes.num,
     searchableDescription: PropTypes.string,
     setSearchText: PropTypes.func,
+    totalRows: PropTypes.num,
 }
 
 export default TableQueryRow

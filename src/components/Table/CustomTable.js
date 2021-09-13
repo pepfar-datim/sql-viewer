@@ -47,9 +47,12 @@ const CustomTable = ({
     return (
         <>
             <TableQueryRow
+                maxRows={maxRows}
                 searchableDescription={searchableDescription}
                 setSearchText={searchable ? setSearchText : null}
                 refreshQuery={refreshQuery}
+                rowCount={filteredRows.length}
+                totalRows={tableData.length}
             />
             <CustomTableBody
                 pagePosition={pagePosition}

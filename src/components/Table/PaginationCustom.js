@@ -9,8 +9,10 @@ import {
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
+import PageCount from './PageCount'
 
 const PaginationCustom = ({
+    enablePagination,
     maxRows,
     setMaxRows,
     rowCount,
@@ -32,65 +34,68 @@ const PaginationCustom = ({
     return (
         <>
             <div className="paginationDiv">
-                <span>
-                    {i18n.t('Displaying {{current}} of {{total}} rows', {
-                        current: Math.min(maxRows, rowCount),
-                        total: totalRows,
-                    })}
-                </span>
-                <span className="paginationElementHalf">{` | `}</span>
-                <span className="paginationElementHalf">
-                    {i18n.t('Page {{position}} of {{maxPage}}', {
-                        position: pagePosition + 1,
-                        maxPage: Math.ceil(rowCount / maxRows),
-                    })}
-                </span>
-                <div className="paginationElement">
-                    <ButtonStrip>
-                        <Button
-                            icon={<IconArrowLeft16 />}
-                            disabled={pagePosition === 0}
-                            onClick={() => {
-                                setPagePosition(pagePosition - 1)
-                            }}
-                        >
-                            {i18n.t('Previous')}
-                        </Button>
-                        <Button
-                            icon={<IconArrowRight16 />}
-                            disabled={
-                                pagePosition ===
-                                Math.ceil(rowCount / maxRows) - 1
-                            }
-                            onClick={() => {
-                                setPagePosition(pagePosition + 1)
-                            }}
-                        >
-                            {i18n.t('Next')}
-                        </Button>
-                    </ButtonStrip>
-                </div>
-                <div className="paginationDiv paginationElement">
-                    <SingleSelect
-                        prefix={`${i18n.t('Rows to display')}: `}
-                        selected={
-                            maxRows === totalRows
-                                ? allOption
-                                : maxRows.toString()
-                        }
-                        onChange={e => {
-                            updateMaxRows(e.selected)
-                        }}
-                    >
-                        {displayCountOptions.map(k => (
-                            <SingleSelectOption
-                                label={k.toString()}
-                                key={`row_count_select_${k}`}
-                                value={k.toString()}
-                            />
-                        ))}
-                    </SingleSelect>
-                </div>
+                <PageCount
+                    maxRows={maxRows}
+                    rowCount={rowCount}
+                    totalRows={totalRows}
+                />
+                {enablePagination && (
+                    <>
+                        <span className="paginationElementHalf">{` | `}</span>
+                        <span className="paginationElementHalf">
+                            {i18n.t('Page {{position}} of {{maxPage}}', {
+                                position: pagePosition + 1,
+                                maxPage: Math.ceil(rowCount / maxRows),
+                            })}
+                        </span>
+                        <div className="paginationElement">
+                            <ButtonStrip>
+                                <Button
+                                    icon={<IconArrowLeft16 />}
+                                    disabled={pagePosition === 0}
+                                    onClick={() => {
+                                        setPagePosition(pagePosition - 1)
+                                    }}
+                                >
+                                    {i18n.t('Previous')}
+                                </Button>
+                                <Button
+                                    icon={<IconArrowRight16 />}
+                                    disabled={
+                                        pagePosition ===
+                                        Math.ceil(rowCount / maxRows) - 1
+                                    }
+                                    onClick={() => {
+                                        setPagePosition(pagePosition + 1)
+                                    }}
+                                >
+                                    {i18n.t('Next')}
+                                </Button>
+                            </ButtonStrip>
+                        </div>
+                        <div className="paginationDiv paginationElement">
+                            <SingleSelect
+                                prefix={`${i18n.t('Rows to display')}: `}
+                                selected={
+                                    maxRows === totalRows
+                                        ? allOption
+                                        : maxRows.toString()
+                                }
+                                onChange={e => {
+                                    updateMaxRows(e.selected)
+                                }}
+                            >
+                                {displayCountOptions.map(k => (
+                                    <SingleSelectOption
+                                        label={k.toString()}
+                                        key={`row_count_select_${k}`}
+                                        value={k.toString()}
+                                    />
+                                ))}
+                            </SingleSelect>
+                        </div>
+                    </>
+                )}
             </div>
             <style jsx>
                 {`
@@ -116,6 +121,7 @@ const PaginationCustom = ({
 }
 
 PaginationCustom.propTypes = {
+    enablePagination: PropTypes.bool,
     maxRows: PropTypes.number,
     pagePosition: PropTypes.number,
     rowCount: PropTypes.number,

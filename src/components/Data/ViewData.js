@@ -97,7 +97,7 @@ const ViewData = ({ match }) => {
                                 refreshQuery={refreshQuery}
                             />
                             <div className="main">
-                                <div>
+                                <div className="marginWrap">
                                     <div className="flexWrap">
                                         <span className="queryTitleText">
                                             {data.sqlView.name}
@@ -171,11 +171,12 @@ const ViewData = ({ match }) => {
                     font-size: 1rem;
                 }
                 .main {
-                    margin-left: var(--spacers-dp16);
-                    margin-top: var(--spacers-dp12);
-                    margin-right: var(--spacers-dp16);
                     width: 100%;
                     overflow: auto;
+                }
+                .marginWrap {
+                    margin: var(--spacers-dp12) var(--spacers-dp16)
+                        var(--spacers-dp12) var(--spacers-dp16);
                 }
                 .drawerWrapper {
                     position: relative;

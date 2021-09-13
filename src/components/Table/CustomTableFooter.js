@@ -26,21 +26,22 @@ const CustomTableFooter = ({
                     {i18n.t('Download CSV')}
                 </Button>
             )}
-            {enablePagination && (
-                <PaginationCustom
-                    maxRows={maxRows}
-                    setMaxRows={setMaxRows}
-                    rowCount={rowCount}
-                    totalRows={totalRows}
-                    pagePosition={pagePosition}
-                    setPagePosition={setPagePosition}
-                />
-            )}
+            <PaginationCustom
+                enablePagination={enablePagination}
+                maxRows={maxRows}
+                setMaxRows={setMaxRows}
+                rowCount={rowCount}
+                totalRows={totalRows}
+                pagePosition={pagePosition}
+                setPagePosition={setPagePosition}
+            />
         </div>
         <style jsx>{`
             .tableEnd {
+                margin-top: var(--spacers-dp8);
+                margin-bottom: var(--spacers-dp16);
+                min-height: 20px;
                 display: flex;
-                margin: 10px 0px 0px 20px;
             }
         `}</style>
     </>
