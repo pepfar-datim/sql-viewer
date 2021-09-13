@@ -1,8 +1,9 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import { Menu, MenuItem, Popover, IconEdit24 } from '@dhis2/ui'
+import { Menu, MenuItem, Popover, IconEdit24, IconView24 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { getEditLink, getApiLink } from '../../api/miscellaneous'
 
 const CodeIcon = () => (
@@ -26,7 +27,7 @@ const CodeIcon = () => (
     </svg>
 )
 
-const LinksMenu = ({ id, moreButtonRef, toggleLinksMenu }) => {
+const LinksMenu = ({ id, includeViewLink, moreButtonRef, toggleLinksMenu }) => {
     const engine = useDataEngine()
 
     return (
@@ -37,6 +38,20 @@ const LinksMenu = ({ id, moreButtonRef, toggleLinksMenu }) => {
             onClickOutside={toggleLinksMenu}
         >
             <Menu>
+                {includeViewLink && (
+                    <Link
+                        to={`/view/${id}`}
+                        style={{
+                            textDecoration: 'none',
+                        }}
+                    >
+                        <MenuItem
+                            icon={<IconView24 />}
+                            dense
+                            label={i18n.t('open in sql viewer')}
+                        />
+                    </Link>
+                )}
                 <MenuItem
                     icon={<CodeIcon />}
                     dense
@@ -60,6 +75,7 @@ const LinksMenu = ({ id, moreButtonRef, toggleLinksMenu }) => {
 
 LinksMenu.propTypes = {
     id: PropTypes.string,
+    includeViewLink: PropTypes.bool,
     moreButtonRef: PropTypes.object,
     toggleLinksMenu: PropTypes.func,
 }

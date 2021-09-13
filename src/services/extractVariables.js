@@ -4,7 +4,12 @@ export const extractVariables = query => {
     const variableMatches = query.matchAll(VARIABLE_EXPRESSION)
 
     for (const match of variableMatches) {
-        variables[match[1]] = ''
+        if (
+            match[1] !== '_current_user_id' &&
+            match[1] !== '_current_username'
+        ) {
+            variables[match[1]] = ''
+        }
     }
 
     return variables

@@ -1,4 +1,5 @@
 import { useDataEngine, useDataQuery } from '@dhis2/app-runtime'
+import i18n from '@dhis2/d2-i18n'
 import { CircularLoader } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
@@ -68,6 +69,10 @@ const DataWrapper = ({ variables, id, isView, setRefreshQuery }) => {
             {data && (
                 <CustomTable
                     searchable={true}
+                    searchableDescription={`${String.fromCharCode(
+                        55357,
+                        56589
+                    )} ${i18n.t('Search within results')}`}
                     refreshQuery={refreshQuery}
                     tableData={data.sqlData.listGrid.rows}
                     tableColumns={data.sqlData.listGrid.headers}

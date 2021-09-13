@@ -53,7 +53,7 @@ const VariablesDrawerMenu = ({
                     padding: var(--spacers-dp16);
                     height: 100%;
                     background-color: var(--colors-grey300);
-                    overflow: hidden;
+                    overflow: auto;
                 }
                 .flexWrap {
                     display: flex;

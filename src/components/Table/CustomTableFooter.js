@@ -8,6 +8,7 @@ const CustomTableFooter = ({
     maxRows,
     setMaxRows,
     downloadURL,
+    enablePagination,
     rowCount,
     totalRows,
     pagePosition,
@@ -26,6 +27,7 @@ const CustomTableFooter = ({
                 </Button>
             )}
             <PaginationCustom
+                enablePagination={enablePagination}
                 maxRows={maxRows}
                 setMaxRows={setMaxRows}
                 rowCount={rowCount}
@@ -36,8 +38,10 @@ const CustomTableFooter = ({
         </div>
         <style jsx>{`
             .tableEnd {
+                margin-top: var(--spacers-dp8);
+                margin-bottom: var(--spacers-dp16);
+                min-height: 20px;
                 display: flex;
-                margin: 10px 0px 0px 20px;
             }
         `}</style>
     </>
@@ -45,6 +49,7 @@ const CustomTableFooter = ({
 
 CustomTableFooter.propTypes = {
     downloadURL: PropTypes.string,
+    enablePagination: PropTypes.bool,
     maxRows: PropTypes.number,
     pagePosition: PropTypes.number,
     rowCount: PropTypes.number,

@@ -15,7 +15,7 @@ const Layout = ({ children }) => (
                 background-color: white;
             }
             .innerContainer {
-                margin: 10px;
+                margin: var(--spacers-dp12);
                 height: 100%;
             }
         `}</style>

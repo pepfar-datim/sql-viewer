@@ -6,6 +6,7 @@ import TableQueryRow from './TableQueryRow'
 
 const CustomTable = ({
     searchable,
+    searchableDescription,
     refreshQuery,
     tableData,
     tableColumns,
@@ -14,7 +15,9 @@ const CustomTable = ({
     const [filteredRows, setFilteredRows] = useState(tableData)
 
     const [pagePosition, setPagePosition] = useState(0)
-    const [maxRows, setMaxRows] = useState(10)
+    const [maxRows, setMaxRows] = useState(
+        tableData.length > 500 ? 500 : tableData.length
+    )
 
     const filterBySearch = (data, searchTerm) => {
         setPagePosition(0)
@@ -44,8 +47,12 @@ const CustomTable = ({
     return (
         <>
             <TableQueryRow
+                maxRows={maxRows}
+                searchableDescription={searchableDescription}
                 setSearchText={searchable ? setSearchText : null}
                 refreshQuery={refreshQuery}
+                rowCount={filteredRows.length}
+                totalRows={tableData.length}
             />
             <CustomTableBody
                 pagePosition={pagePosition}
@@ -57,6 +64,7 @@ const CustomTable = ({
             />
             <CustomTableFooter
                 downloadURL={downloadURL}
+                enablePagination={tableData.length > 500 ? true : false}
                 maxRows={maxRows}
                 setMaxRows={setMaxRows}
                 rowCount={filteredRows.length}
@@ -74,6 +82,7 @@ CustomTable.propTypes = {
     downloadURL: PropTypes.string,
     refreshQuery: PropTypes.func,
     searchable: PropTypes.bool,
+    searchableDescription: PropTypes.string,
     tableColumns: PropTypes.array,
     tableData: PropTypes.array,
 }
