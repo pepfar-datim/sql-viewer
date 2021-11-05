@@ -1,10 +1,18 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import { Menu, MenuItem, Popover, IconEdit24, IconView24 } from '@dhis2/ui'
+import {
+    Menu,
+    MenuItem,
+    Popover,
+    IconEdit24,
+    IconLink24,
+    IconView24,
+} from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { getEditLink, getApiLink } from '../../api/miscellaneous'
+import { parameterizeVariablesQuery } from '../../services/extractVariables'
 
 const CodeIcon = () => (
     <svg
@@ -27,8 +35,22 @@ const CodeIcon = () => (
     </svg>
 )
 
-const LinksMenu = ({ id, includeViewLink, moreButtonRef, toggleLinksMenu }) => {
+const LinksMenu = ({
+    id,
+    includeViewLink,
+    moreButtonRef,
+    toggleLinksMenu,
+    variables,
+}) => {
     const engine = useDataEngine()
+
+    const getLink = () => {
+        return `${engine.link.baseUrl}/${
+            engine.link.apiPath
+        }/SQLViewer/index.html#/view/cn3dG8WAFXR?${parameterizeVariablesQuery(
+            variables
+        ).join('&')}`
+    }
 
     return (
         <Popover
@@ -68,6 +90,14 @@ const LinksMenu = ({ id, includeViewLink, moreButtonRef, toggleLinksMenu }) => {
                         window.open(getEditLink(engine, id))
                     }}
                 />
+                <MenuItem
+                    icon={<IconLink24 />}
+                    dense
+                    label={i18n.t('copy link')}
+                    onClick={() => {
+                        navigator.clipboard.writeText(getLink())
+                    }}
+                />
             </Menu>
         </Popover>
     )
@@ -78,6 +108,7 @@ LinksMenu.propTypes = {
     includeViewLink: PropTypes.bool,
     moreButtonRef: PropTypes.object,
     toggleLinksMenu: PropTypes.func,
+    variables: PropTypes.object,
 }
 
 export default LinksMenu

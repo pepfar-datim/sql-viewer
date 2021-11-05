@@ -24,7 +24,10 @@ const DataWrapper = ({ variables, id, isView, setRefreshQuery }) => {
     const [variablesUsed, setVariablesUsed] = useState({})
     const engine = useDataEngine()
     const { loading, error, data, refetch } = useDataQuery(sqlDataQuery, {
-        variables: { id: `${id}/data` },
+        variables: {
+            id: `${id}/data`,
+            queryVariables: parameterizeVariablesQuery(variables),
+        },
     })
 
     const refreshQuery = async givenVariables => {
@@ -50,10 +53,12 @@ const DataWrapper = ({ variables, id, isView, setRefreshQuery }) => {
     }, [])
 
     const getDownloadURL = () => {
+        const downloadVariables =
+            Object.keys(variablesUsed).length > 0 ? variablesUsed : variables
         return `${engine.link.baseUrl}/${
             engine.link.apiPath
         }/sqlViews/${id}/data.csv?paging=false&var=${parameterizeVariablesQuery(
-            variablesUsed
+            downloadVariables
         ).join(',')}`
     }
 

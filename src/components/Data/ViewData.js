@@ -3,7 +3,7 @@ import i18n from '@dhis2/d2-i18n'
 import { Button, CircularLoader, IconArrowLeft24, IconMore24 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState, createRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { executeQuery } from '../../api/miscellaneous'
 import { extractVariables } from '../../services/extractVariables'
 import Layout from '../Layout'
@@ -26,7 +26,22 @@ const sqlViewDetail = {
 const VIEW_TYPE = 'VIEW'
 const QUERY_TYPE = 'QUERY'
 
+const useQuery = () => {
+    const { search } = useLocation()
+
+    return React.useMemo(() => {
+        const params = new URLSearchParams(search)
+
+        const paramObject = {}
+        for (const [key, value] of params) {
+            paramObject[key] = value
+        }
+        return paramObject
+    }, [search])
+}
+
 const ViewData = ({ match }) => {
+    const query = useQuery()
     const engine = useDataEngine()
     const id = match.params.id
     const [variablesDrawerOpen, setVariablesDrawerOpen] = useState(true)
@@ -41,7 +56,6 @@ const ViewData = ({ match }) => {
 
     const prepView = async d => {
         const extractedVariables = extractVariables(d.sqlView.sqlQuery)
-        setVariables(extractedVariables)
 
         if (
             d.sqlView.type !== QUERY_TYPE ||
@@ -49,6 +63,13 @@ const ViewData = ({ match }) => {
         ) {
             setVariablesDrawerOpen(false)
         }
+
+        Object.keys(extractedVariables).forEach(k => {
+            if (query[k]) {
+                extractedVariables[k] = query[k]
+            }
+        })
+        setVariables(extractedVariables)
 
         if (d.sqlView.type === VIEW_TYPE) {
             executeQuery.resource = `sqlViews/${id}/execute`
@@ -122,6 +143,7 @@ const ViewData = ({ match }) => {
                                                 toggleLinksMenu={
                                                     toggleLinksMenu
                                                 }
+                                                variables={variables}
                                             />
                                         )}
                                         <div className="backButtonWrap">
@@ -205,7 +227,11 @@ const ViewData = ({ match }) => {
                     margin-left: var(--spacers-dp12);
                 }
                 .backButtonWrap {
+                    display: flex;
                     margin-left: auto;
+                }
+                .linkButton {
+                    margin-right: 8px;
                 }
             `}</style>
         </Layout>
