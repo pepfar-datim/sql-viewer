@@ -40,7 +40,7 @@ const LinksButton = ({ id }) => {
             {linksMenuOpen && (
                 <LinksMenu
                     id={id}
-                    includeViewLink={true}
+                    isSearchPage={true}
                     moreButtonRef={moreButtonRef}
                     toggleLinksMenu={toggleLinksMenu}
                 />

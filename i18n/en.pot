@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-09-13T10:41:15.552Z\n"
-"PO-Revision-Date: 2021-09-13T10:41:15.552Z\n"
+"POT-Creation-Date: 2021-11-08T14:33:13.587Z\n"
+"PO-Revision-Date: 2021-11-08T14:33:13.588Z\n"
 
 msgid "Search within results"
 msgstr "Search within results"
@@ -28,6 +28,9 @@ msgstr "open in api"
 
 msgid "open in maintenance app"
 msgstr "open in maintenance app"
+
+msgid "copy link"
+msgstr "copy link"
 
 msgid "Variables"
 msgstr "Variables"

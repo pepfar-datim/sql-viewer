@@ -138,7 +138,7 @@ const ViewData = ({ match }) => {
                                         {linksMenuOpen && (
                                             <LinksMenu
                                                 id={id}
-                                                includeViewLink={false}
+                                                isSearchPage={false}
                                                 moreButtonRef={moreButtonRef}
                                                 toggleLinksMenu={
                                                     toggleLinksMenu

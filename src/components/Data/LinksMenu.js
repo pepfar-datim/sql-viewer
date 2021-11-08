@@ -37,19 +37,25 @@ const CodeIcon = () => (
 
 const LinksMenu = ({
     id,
-    includeViewLink,
+    isSearchPage,
     moreButtonRef,
     toggleLinksMenu,
     variables,
 }) => {
     const engine = useDataEngine()
 
-    const getLink = () => {
-        return `${engine.link.baseUrl}/${
-            engine.link.apiPath
-        }/SQLViewer/index.html#/view/cn3dG8WAFXR?${parameterizeVariablesQuery(
-            variables
-        ).join('&')}`
+    const getLink = ({ id }) => {
+        let linkURL = `${location.origin}/#`
+        if (process.env.NODE_ENV !== 'development') {
+            linkURL = `${location.origin}/api/apps/SQLViewer/index.html#`
+        }
+        linkURL += `/view/${id}`
+        if (Object.keys(variables).length > 0) {
+            linkURL += `?${parameterizeVariablesQuery(variables)
+                .join('&')
+                .replaceAll(':', '=')}`
+        }
+        return linkURL
     }
 
     return (
@@ -60,7 +66,7 @@ const LinksMenu = ({
             onClickOutside={toggleLinksMenu}
         >
             <Menu>
-                {includeViewLink && (
+                {isSearchPage && (
                     <Link
                         to={`/view/${id}`}
                         style={{
@@ -90,14 +96,16 @@ const LinksMenu = ({
                         window.open(getEditLink(engine, id))
                     }}
                 />
-                <MenuItem
-                    icon={<IconLink24 />}
-                    dense
-                    label={i18n.t('copy link')}
-                    onClick={() => {
-                        navigator.clipboard.writeText(getLink())
-                    }}
-                />
+                {!isSearchPage && (
+                    <MenuItem
+                        icon={<IconLink24 />}
+                        dense
+                        label={i18n.t('copy link')}
+                        onClick={() => {
+                            navigator.clipboard.writeText(getLink({ id }))
+                        }}
+                    />
+                )}
             </Menu>
         </Popover>
     )
@@ -105,7 +113,7 @@ const LinksMenu = ({
 
 LinksMenu.propTypes = {
     id: PropTypes.string,
-    includeViewLink: PropTypes.bool,
+    isSearchPage: PropTypes.bool,
     moreButtonRef: PropTypes.object,
     toggleLinksMenu: PropTypes.func,
     variables: PropTypes.object,
