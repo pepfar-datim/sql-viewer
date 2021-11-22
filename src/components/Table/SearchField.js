@@ -1,10 +1,29 @@
 import { InputField } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-const SearchField = ({ searchableDescription, setSearchText }) => {
+const SearchField = ({
+    persistSearch,
+    searchableDescription,
+    setSearchText,
+}) => {
     const [searchInput, setSearchInput] = useState('')
     const [searchTextTimeout, setSearchTextTimeout] = useState('')
+
+    useEffect(() => {
+        let searchTerm = ''
+        if (persistSearch) {
+            searchTerm = sessionStorage.getItem('searchTerm') || ''
+        }
+        setSearchInput(searchTerm)
+        setSearchText(searchTerm)
+    }, [])
+
+    useEffect(() => {
+        if (persistSearch) {
+            sessionStorage.setItem('searchTerm', searchInput)
+        }
+    }, [searchInput])
 
     const setSearchTextWithDebounce = searchString => {
         setSearchInput(searchString)
@@ -28,6 +47,7 @@ const SearchField = ({ searchableDescription, setSearchText }) => {
 }
 
 SearchField.propTypes = {
+    persistSearch: PropTypes.bool,
     searchableDescription: PropTypes.string,
     setSearchText: PropTypes.func,
 }
