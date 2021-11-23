@@ -12,7 +12,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { getEditLink, getApiLink } from '../../api/miscellaneous'
-import { parameterizeVariablesQuery } from '../../services/extractVariables'
+import { getVariablesLink } from '../../services/extractVariables'
 
 const CodeIcon = () => (
     <svg
@@ -43,20 +43,6 @@ const LinksMenu = ({
     variables,
 }) => {
     const engine = useDataEngine()
-
-    const getLink = ({ id }) => {
-        let linkURL = `${location.origin}/#`
-        if (process.env.NODE_ENV !== 'development') {
-            linkURL = `${location.origin}/api/apps/SQLViewer/index.html#`
-        }
-        linkURL += `/view/${id}`
-        if (Object.keys(variables).length > 0) {
-            linkURL += `?${parameterizeVariablesQuery(variables)
-                .join('&')
-                .replaceAll(':', '=')}`
-        }
-        return linkURL
-    }
 
     return (
         <Popover
@@ -102,7 +88,9 @@ const LinksMenu = ({
                         dense
                         label={i18n.t('copy link')}
                         onClick={() => {
-                            navigator.clipboard.writeText(getLink({ id }))
+                            navigator.clipboard.writeText(
+                                getVariablesLink({ id, variables })
+                            )
                         }}
                     />
                 )}
