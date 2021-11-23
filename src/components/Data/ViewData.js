@@ -5,7 +5,10 @@ import PropTypes from 'prop-types'
 import React, { useState, createRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { executeQuery } from '../../api/miscellaneous'
-import { extractVariables } from '../../services/extractVariables'
+import {
+    extractVariables,
+    getVariablesLink,
+} from '../../services/extractVariables'
 import Layout from '../Layout'
 import DataWrapper from './DataWrapper'
 import LinksMenu from './LinksMenu'
@@ -88,7 +91,13 @@ const ViewData = ({ match }) => {
     })
 
     const updateVariable = newVariable => {
-        setVariables(Object.assign({}, variables, newVariable))
+        const updatedVariables = Object.assign({}, variables, newVariable)
+        window.history.pushState(
+            null,
+            null,
+            getVariablesLink({ id, variables: updatedVariables })
+        )
+        setVariables(updatedVariables)
     }
 
     const toggleVariableDrawer = () => {

@@ -18,3 +18,17 @@ export const extractVariables = query => {
 export const parameterizeVariablesQuery = varObj => {
     return Object.keys(varObj).map(k => `${k}:${varObj[k]}`)
 }
+
+export const getVariablesLink = ({ id, variables }) => {
+    let linkURL = `${location.origin}/#`
+    if (process.env.NODE_ENV !== 'development') {
+        linkURL = `${location.origin}/api/apps/SQLViewer/index.html#`
+    }
+    linkURL += `/view/${id}`
+    if (Object.keys(variables).length > 0) {
+        linkURL += `?${parameterizeVariablesQuery(variables)
+            .join('&')
+            .replaceAll(':', '=')}`
+    }
+    return linkURL
+}
