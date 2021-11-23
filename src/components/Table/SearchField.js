@@ -1,19 +1,24 @@
 import { InputField } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
+import { useQuery, getSearchTermLink } from '../../services/useQuery'
 
 const SearchField = ({
     persistSearch,
     searchableDescription,
     setSearchText,
 }) => {
+    const query = useQuery()
     const [searchInput, setSearchInput] = useState('')
     const [searchTextTimeout, setSearchTextTimeout] = useState('')
 
     useEffect(() => {
         let searchTerm = ''
         if (persistSearch) {
-            searchTerm = sessionStorage.getItem('searchTerm') || ''
+            searchTerm =
+                query['appSearchTerm'] ||
+                sessionStorage.getItem('appSearchTerm') ||
+                ''
         }
         setSearchInput(searchTerm)
         setSearchText(searchTerm)
@@ -21,7 +26,12 @@ const SearchField = ({
 
     useEffect(() => {
         if (persistSearch) {
-            sessionStorage.setItem('searchTerm', searchInput)
+            window.history.pushState(
+                null,
+                null,
+                getSearchTermLink({ searchTerm: searchInput })
+            )
+            sessionStorage.setItem('appSearchTerm', searchInput)
         }
     }, [searchInput])
 

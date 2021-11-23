@@ -3,12 +3,13 @@ import i18n from '@dhis2/d2-i18n'
 import { Button, CircularLoader, IconArrowLeft24, IconMore24 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState, createRef } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { executeQuery } from '../../api/miscellaneous'
 import {
     extractVariables,
     getVariablesLink,
 } from '../../services/extractVariables'
+import { useQuery } from '../../services/useQuery'
 import Layout from '../Layout'
 import DataWrapper from './DataWrapper'
 import LinksMenu from './LinksMenu'
@@ -28,20 +29,6 @@ const sqlViewDetail = {
 
 const VIEW_TYPE = 'VIEW'
 const QUERY_TYPE = 'QUERY'
-
-const useQuery = () => {
-    const { search } = useLocation()
-
-    return React.useMemo(() => {
-        const params = new URLSearchParams(search)
-
-        const paramObject = {}
-        for (const [key, value] of params) {
-            paramObject[key] = value
-        }
-        return paramObject
-    }, [search])
-}
 
 const ViewData = ({ match }) => {
     const query = useQuery()
