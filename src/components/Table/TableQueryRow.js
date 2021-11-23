@@ -7,6 +7,7 @@ import SearchField from './SearchField'
 
 const TableQueryRow = ({
     maxRows,
+    persistSearch,
     rowCount,
     searchableDescription,
     setSearchText,
@@ -17,6 +18,7 @@ const TableQueryRow = ({
         <div className="queryStrip">
             {setSearchText && (
                 <SearchField
+                    persistSearch={persistSearch}
                     searchableDescription={searchableDescription}
                     setSearchText={setSearchText}
                 />
@@ -66,6 +68,7 @@ const TableQueryRow = ({
 
 TableQueryRow.propTypes = {
     maxRows: PropTypes.num,
+    persistSearch: PropTypes.bool,
     refreshQuery: PropTypes.func,
     rowCount: PropTypes.num,
     searchableDescription: PropTypes.string,

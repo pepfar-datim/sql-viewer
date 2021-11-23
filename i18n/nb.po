@@ -20,11 +20,17 @@ msgstr "Oppgi variabler til venstre og oppdater spørringen"
 msgid "Query could not execute"
 msgstr "Spørringen kunne ikke gjennomføres"
 
+msgid "open in sql viewer"
+msgstr "åpne i sql viewer"
+
 msgid "open in api"
 msgstr "åpne i api"
 
 msgid "open in maintenance app"
 msgstr "åpne i metadata manager"
+
+msgid "copy link"
+msgstr "kopier lenken"
 
 msgid "Variables"
 msgstr "Variabler"

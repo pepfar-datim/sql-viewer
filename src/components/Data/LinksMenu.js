@@ -1,10 +1,18 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import { Menu, MenuItem, Popover, IconEdit24, IconView24 } from '@dhis2/ui'
+import {
+    Menu,
+    MenuItem,
+    Popover,
+    IconEdit24,
+    IconLink24,
+    IconView24,
+} from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { getEditLink, getApiLink } from '../../api/miscellaneous'
+import { getVariablesLink } from '../../services/extractVariables'
 
 const CodeIcon = () => (
     <svg
@@ -27,7 +35,13 @@ const CodeIcon = () => (
     </svg>
 )
 
-const LinksMenu = ({ id, includeViewLink, moreButtonRef, toggleLinksMenu }) => {
+const LinksMenu = ({
+    id,
+    isSearchPage,
+    moreButtonRef,
+    toggleLinksMenu,
+    variables,
+}) => {
     const engine = useDataEngine()
 
     return (
@@ -38,7 +52,7 @@ const LinksMenu = ({ id, includeViewLink, moreButtonRef, toggleLinksMenu }) => {
             onClickOutside={toggleLinksMenu}
         >
             <Menu>
-                {includeViewLink && (
+                {isSearchPage && (
                     <Link
                         to={`/view/${id}`}
                         style={{
@@ -68,6 +82,18 @@ const LinksMenu = ({ id, includeViewLink, moreButtonRef, toggleLinksMenu }) => {
                         window.open(getEditLink(engine, id))
                     }}
                 />
+                {!isSearchPage && (
+                    <MenuItem
+                        icon={<IconLink24 />}
+                        dense
+                        label={i18n.t('copy link')}
+                        onClick={() => {
+                            navigator.clipboard.writeText(
+                                getVariablesLink({ id, variables })
+                            )
+                        }}
+                    />
+                )}
             </Menu>
         </Popover>
     )
@@ -75,9 +101,10 @@ const LinksMenu = ({ id, includeViewLink, moreButtonRef, toggleLinksMenu }) => {
 
 LinksMenu.propTypes = {
     id: PropTypes.string,
-    includeViewLink: PropTypes.bool,
+    isSearchPage: PropTypes.bool,
     moreButtonRef: PropTypes.object,
     toggleLinksMenu: PropTypes.func,
+    variables: PropTypes.object,
 }
 
 export default LinksMenu

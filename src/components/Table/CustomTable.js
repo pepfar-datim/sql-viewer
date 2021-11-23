@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import CustomTableBody from './CustomTableBody'
 import CustomTableFooter from './CustomTableFooter'
 import TableQueryRow from './TableQueryRow'
 
 const CustomTable = ({
+    persistSearch,
     searchable,
     searchableDescription,
     refreshQuery,
@@ -40,14 +41,11 @@ const CustomTable = ({
         filterBySearch(tableData, searchTerm)
     }
 
-    useEffect(() => {
-        setFilteredRows(tableData)
-    }, [tableData])
-
     return (
         <>
             <TableQueryRow
                 maxRows={maxRows}
+                persistSearch={persistSearch}
                 searchableDescription={searchableDescription}
                 setSearchText={searchable ? setSearchText : null}
                 refreshQuery={refreshQuery}
@@ -80,6 +78,7 @@ const CustomTable = ({
 */
 CustomTable.propTypes = {
     downloadURL: PropTypes.string,
+    persistSearch: PropTypes.bool,
     refreshQuery: PropTypes.func,
     searchable: PropTypes.bool,
     searchableDescription: PropTypes.string,

@@ -136,7 +136,7 @@ const CustomTableBody = ({ maxRows, pagePosition, rows, headers }) => {
             </div>
             <style jsx>{`
                 .tableContainer {
-                    margin: 10px 0px 0px 0px;
+                    margin: var(--spacers-dp16) 0px 0px 0px;
                 }
             `}</style>
         </>

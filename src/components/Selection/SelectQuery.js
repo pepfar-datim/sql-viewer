@@ -40,7 +40,7 @@ const LinksButton = ({ id }) => {
             {linksMenuOpen && (
                 <LinksMenu
                     id={id}
-                    includeViewLink={true}
+                    isSearchPage={true}
                     moreButtonRef={moreButtonRef}
                     toggleLinksMenu={toggleLinksMenu}
                 />
@@ -66,6 +66,7 @@ const SelectQuery = () => {
                         {error && <span>{`Error: ${error.message}`}</span>}
                         {data && (
                             <CustomTable
+                                persistSearch={true}
                                 searchable={true}
                                 searchableDescription={`${String.fromCharCode(
                                     55357,

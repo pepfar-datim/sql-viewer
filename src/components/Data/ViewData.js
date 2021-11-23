@@ -5,7 +5,11 @@ import PropTypes from 'prop-types'
 import React, { useState, createRef } from 'react'
 import { Link } from 'react-router-dom'
 import { executeQuery } from '../../api/miscellaneous'
-import { extractVariables } from '../../services/extractVariables'
+import {
+    extractVariables,
+    getVariablesLink,
+} from '../../services/extractVariables'
+import { useQuery } from '../../services/useQuery'
 import Layout from '../Layout'
 import DataWrapper from './DataWrapper'
 import LinksMenu from './LinksMenu'
@@ -27,6 +31,7 @@ const VIEW_TYPE = 'VIEW'
 const QUERY_TYPE = 'QUERY'
 
 const ViewData = ({ match }) => {
+    const query = useQuery()
     const engine = useDataEngine()
     const id = match.params.id
     const [variablesDrawerOpen, setVariablesDrawerOpen] = useState(true)
@@ -41,7 +46,6 @@ const ViewData = ({ match }) => {
 
     const prepView = async d => {
         const extractedVariables = extractVariables(d.sqlView.sqlQuery)
-        setVariables(extractedVariables)
 
         if (
             d.sqlView.type !== QUERY_TYPE ||
@@ -49,6 +53,13 @@ const ViewData = ({ match }) => {
         ) {
             setVariablesDrawerOpen(false)
         }
+
+        Object.keys(extractedVariables).forEach(k => {
+            if (query[k]) {
+                extractedVariables[k] = query[k]
+            }
+        })
+        setVariables(extractedVariables)
 
         if (d.sqlView.type === VIEW_TYPE) {
             executeQuery.resource = `sqlViews/${id}/execute`
@@ -67,7 +78,13 @@ const ViewData = ({ match }) => {
     })
 
     const updateVariable = newVariable => {
-        setVariables(Object.assign({}, variables, newVariable))
+        const updatedVariables = Object.assign({}, variables, newVariable)
+        window.history.pushState(
+            null,
+            null,
+            getVariablesLink({ id, variables: updatedVariables })
+        )
+        setVariables(updatedVariables)
     }
 
     const toggleVariableDrawer = () => {
@@ -117,11 +134,12 @@ const ViewData = ({ match }) => {
                                         {linksMenuOpen && (
                                             <LinksMenu
                                                 id={id}
-                                                includeViewLink={false}
+                                                isSearchPage={false}
                                                 moreButtonRef={moreButtonRef}
                                                 toggleLinksMenu={
                                                     toggleLinksMenu
                                                 }
+                                                variables={variables}
                                             />
                                         )}
                                         <div className="backButtonWrap">
@@ -205,7 +223,11 @@ const ViewData = ({ match }) => {
                     margin-left: var(--spacers-dp12);
                 }
                 .backButtonWrap {
+                    display: flex;
                     margin-left: auto;
+                }
+                .linkButton {
+                    margin-right: 8px;
                 }
             `}</style>
         </Layout>
