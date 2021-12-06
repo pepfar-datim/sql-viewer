@@ -56,7 +56,7 @@ const VariablesSummaryLine = ({ variables, toggleVariableDrawer }) => (
 
 VariablesSummaryLine.propTypes = {
     toggleVariableDrawer: PropTypes.func,
-    variables: PropTypes.array,
+    variables: PropTypes.object,
 }
 
 export default VariablesSummaryLine
