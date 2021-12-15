@@ -1,16 +1,21 @@
-import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
+import PropTypes from 'prop-types'
+import React from 'react'
 import ErrorMessage from '../ErrorMessage'
 
+const MockNoticeBox = ({ children }) => (
+    <div>
+        <>{children}</>
+    </div>
+)
+
+MockNoticeBox.propTypes = {
+    children: PropTypes.node,
+}
+
 jest.mock('@dhis2/ui', () => ({
-    NoticeBox: ({ children }) => {
-        return (
-            <div>
-                <>{children}</>
-            </div>
-        )
-    },
+    NoticeBox: ({ children }) => MockNoticeBox({ children }),
 }))
 
 describe('ErrorMessage', () => {

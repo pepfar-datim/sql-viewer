@@ -1,26 +1,37 @@
-import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
+import PropTypes from 'prop-types'
+import React from 'react'
 import VariablesSummaryLine from '../VariablesSummaryLine'
 
+const MockTag = ({ children }) => (
+    <div>
+        <>{children}</>
+    </div>
+)
+
+MockTag.propTypes = {
+    children: PropTypes.node,
+}
+
+const MockButton = ({ onClick }) => (
+    <button
+        onClick={() => {
+            onClick()
+        }}
+    ></button>
+)
+
+MockButton.propTypes = {
+    onClick: PropTypes.func,
+}
+
+const MockIconAddCircle24 = () => <></>
+
 jest.mock('@dhis2/ui', () => ({
-    Tag: ({ children }) => {
-        return (
-            <div>
-                <>{children}</>
-            </div>
-        )
-    },
-    Button: ({ onClick }) => {
-        return (
-            <button
-                onClick={() => {
-                    onClick()
-                }}
-            ></button>
-        )
-    },
-    IconAddCircle24: () => <></>,
+    Tag: ({ children }) => MockTag({ children }),
+    Button: ({ onClick }) => MockButton({ onClick }),
+    IconAddCircle24: () => MockIconAddCircle24(),
 }))
 
 describe('VariablesSummaryLine', () => {

@@ -1,19 +1,28 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
+import PropTypes from 'prop-types'
 import React from 'react'
 import DataWrapper from '../DataWrapper'
 
+var MockCircularLoader = () => <span>loading</span>
+
 jest.mock('@dhis2/ui', () => ({
-    CircularLoader: () => <span>loading</span>,
+    CircularLoader: () => MockCircularLoader(),
 }))
 
+const MockCustomTable = ({ children }) => (
+    <div>
+        <span>Table</span>
+        {children}
+    </div>
+)
+
+MockCustomTable.propTypes = {
+    children: PropTypes.node,
+}
+
 jest.mock('../../Table/CustomTable', () => {
-    return ({ children }) => (
-        <div>
-            <span>Table</span>
-            {children}
-        </div>
-    )
+    return ({ children }) => MockCustomTable({ children })
 })
 
 jest.mock('../../Table/TableQueryRow', () => {
