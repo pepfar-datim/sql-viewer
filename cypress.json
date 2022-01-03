@@ -1,0 +1,12 @@
+{
+    "baseUrl": "http://localhost:3000",
+    "video": true,
+    "projectId": "MDt3dI",
+    "env": {
+        "dhis2DataTestPrefix": "dhis2-SQLViewer",
+        "networkMode": "live",
+        "dhis2ApiVersion": "37"
+    },
+    "experimentalInteractiveRunEvents": true,
+    "testFiles": "**/*.*"
+}
