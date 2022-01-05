@@ -30,6 +30,7 @@ const LinksButton = ({ id }) => {
         <>
             <div ref={moreButtonRef} className="buttonWrapLeft">
                 <Button
+                    dataTest={`moreButton_${id}`}
                     icon={<IconMore24 />}
                     small
                     onClick={() => {

@@ -1,21 +1,24 @@
 import { Given, Then, When } from 'cypress-cucumber-preprocessor/steps'
 
-When('Superuser opens the landing page', () => {
+When('I open the landing page', () => {
     cy.visit('/')
     // clear search field upon start of text
     cy.get('#searchField').clear()
 })
 
 Then('the list of SQL Queries is shown', () => {
-    cy.contains('SQL Views').should('be.visible')
+    cy.contains('SQL Views').should('exist')
+    cy.get('.tableContainer table tbody').should('not.be.empty')
 })
 
 Then('Category option combo overview query is shown', () => {
     cy.contains('Category option combo overview').should('be.visible')
 })
 
-Given('Superuser is on landing page', () => {
+Given('I am on the landing page', () => {
     cy.visit('/')
+    cy.get('#searchField').clear()
+    /*
     cy.intercept('GET', 'sqlViews*', {
         sqlViews: [
             { name: 'Snoopy', id: 'snoopyQUERY', displayName: 'Snoopy' },
@@ -27,23 +30,61 @@ Given('Superuser is on landing page', () => {
         ],
     }).as('getViews')
     cy.wait('@getViews')
+    */
 })
 
-When('Superuser clicks something', () => {
-    cy.wait(1000)
-    cy.contains('Snoopy').click()
+When('I click {string} query', queryName => {
+    cy.wait(2000)
+    cy.contains(queryName).click()
 })
 
-Then('Page redirects to selected query', () => {
-    cy.url().should('include', 'view/snoopyQUERY')
+Then('page redirects to query with uid {string}', queryID => {
+    cy.url().should('include', `view/${queryID}`)
 })
 
-When('Superuser types pineapple in search field', () => {
+/*
+    cy.contains('Back').click()
     cy.get('#searchField').clear()
-    cy.get('#searchField').type('Pineapple')
+    cy.get('#searchField').type('Snoopy')    
+    cy.contains('Snoopy').click()
+    cy.contains('Back').click()
+    cy.get('#searchField').contains('Snoopy').should('be.visible')
+*/
+
+When('I type {string} in search field', searchTerm => {
+    cy.get('#searchField').clear()
+    cy.get('#searchField').type(searchTerm)
 })
 
 Then('no results display', () => {
-    cy.contains('Displaying 0 of 2 rows').should('be.visible')
+    cy.contains(/Displaying 0 of \d* row[s]*/)
     cy.get('.tableContainer table tbody').should('be.empty')
 })
+
+When('I click Back button', () => {
+    cy.contains('Back').click()
+})
+
+// maybe make clear search field after this
+Then('search field still has {string}', searchTerm => {
+    cy.get('#searchField').should('have.value', searchTerm)
+})
+
+When('I click more button for query with id {string}', queryID => {
+    cy.get(`[data-test="moreButton_${queryID}"]`).click()
+})
+
+When('I click {string} link', linkString => {
+    cy.contains(linkString).click()
+})
+
+Then(
+    '{string} link should have link to {string} for query {string}',
+    (linkString, resource, queryID) => {
+        cy.contains(linkString).should('be.visible')
+        const queryMatch = new RegExp(resource + '.*' + queryID)
+        cy.contains(linkString)
+            .should('have.attr', 'href')
+            .and('include', queryMatch)
+    }
+)

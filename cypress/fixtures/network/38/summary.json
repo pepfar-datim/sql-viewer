@@ -1,0 +1,8 @@
+{
+    "count": 28,
+    "totalResponseSize": 12527,
+    "duplicates": 18,
+    "nonDeterministicResponses": 2,
+    "apiVersion": "38",
+    "fixtureFiles": ["static_resources.json", "selecting_a_sql_query.json"]
+}

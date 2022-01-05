@@ -5,8 +5,8 @@
     "env": {
         "dhis2DataTestPrefix": "dhis2-SQLViewer",
         "networkMode": "live",
-        "dhis2ApiVersion": "37"
+        "dhis2ApiVersion": "38"
     },
     "experimentalInteractiveRunEvents": true,
-    "testFiles": "**/*.*"
+    "testFiles": "**/*.feature"
 }
