@@ -18,19 +18,6 @@ Then('Category option combo overview query is shown', () => {
 Given('I am on the landing page', () => {
     cy.visit('/')
     cy.get('#searchField').clear()
-    /*
-    cy.intercept('GET', 'sqlViews*', {
-        sqlViews: [
-            { name: 'Snoopy', id: 'snoopyQUERY', displayName: 'Snoopy' },
-            {
-                name: 'Charlie Brown',
-                id: 'charliBROWN',
-                displayName: 'Charlie Brown',
-            },
-        ],
-    }).as('getViews')
-    cy.wait('@getViews')
-    */
 })
 
 When('I click {string} query', queryName => {
@@ -41,15 +28,6 @@ When('I click {string} query', queryName => {
 Then('page redirects to query with uid {string}', queryID => {
     cy.url().should('include', `view/${queryID}`)
 })
-
-/*
-    cy.contains('Back').click()
-    cy.get('#searchField').clear()
-    cy.get('#searchField').type('Snoopy')    
-    cy.contains('Snoopy').click()
-    cy.contains('Back').click()
-    cy.get('#searchField').contains('Snoopy').should('be.visible')
-*/
 
 When('I type {string} in search field', searchTerm => {
     cy.get('#searchField').clear()
@@ -62,10 +40,9 @@ Then('no results display', () => {
 })
 
 When('I click Back button', () => {
-    cy.contains('Back').click()
+    cy.get(`[data-test="back-to-search"]`).click()
 })
 
-// maybe make clear search field after this
 Then('search field still has {string}', searchTerm => {
     cy.get('#searchField').should('have.value', searchTerm)
 })
@@ -85,6 +62,6 @@ Then(
         const queryMatch = new RegExp(resource + '.*' + queryID)
         cy.contains(linkString)
             .should('have.attr', 'href')
-            .and('include', queryMatch)
+            .and('match', queryMatch)
     }
 )

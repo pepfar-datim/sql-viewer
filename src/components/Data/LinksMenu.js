@@ -10,7 +10,6 @@ import {
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { getEditLink, getApiLink } from '../../api/miscellaneous'
 import { getVariablesLink } from '../../services/extractVariables'
 
@@ -53,20 +52,16 @@ const LinksMenu = ({
         >
             <Menu>
                 {isSearchPage && (
-                    <Link
-                        to={`/view/${id}`}
-                        style={{
-                            textDecoration: 'none',
-                        }}
-                    >
-                        <MenuItem
-                            icon={<IconView24 />}
-                            dense
-                            label={i18n.t('open in sql viewer')}
-                        />
-                    </Link>
+                    <MenuItem
+                        href={`#/view/${id}`}
+                        icon={<IconView24 />}
+                        dense
+                        label={i18n.t('open in sql viewer')}
+                    />
                 )}
+
                 <MenuItem
+                    href={getApiLink(engine, id)}
                     icon={<CodeIcon />}
                     dense
                     label={i18n.t('open in api')}
@@ -74,7 +69,9 @@ const LinksMenu = ({
                         window.open(getApiLink(engine, id))
                     }}
                 />
+
                 <MenuItem
+                    href={getEditLink(engine, id)}
                     icon={<IconEdit24 />}
                     dense
                     label={i18n.t('open in maintenance app')}
@@ -82,6 +79,7 @@ const LinksMenu = ({
                         window.open(getEditLink(engine, id))
                     }}
                 />
+
                 {!isSearchPage && (
                     <MenuItem
                         icon={<IconLink24 />}

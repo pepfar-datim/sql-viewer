@@ -150,6 +150,7 @@ const ViewData = ({ match }) => {
                                                 }}
                                             >
                                                 <Button
+                                                    dataTest={'back-to-search'}
                                                     icon={<IconArrowLeft24 />}
                                                 >
                                                     {i18n.t('Back')}
