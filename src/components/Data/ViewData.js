@@ -12,6 +12,7 @@ import {
 import { useQuery } from '../../services/useQuery'
 import Layout from '../Layout'
 import DataWrapper from './DataWrapper'
+import ErrorMessage from './ErrorMessage'
 import LinksMenu from './LinksMenu'
 import VariablesDrawerMenu from './VariablesDrawerMenu'
 import VariablesSummaryLine from './VariablesSummaryLine'
@@ -29,6 +30,42 @@ const sqlViewDetail = {
 
 const VIEW_TYPE = 'VIEW'
 const QUERY_TYPE = 'QUERY'
+
+const BackButton = () => (
+    <>
+        <div className="marginWrap flexWrap">
+            <div className="backButtonWrap">
+                <Link
+                    to={`/`}
+                    style={{
+                        textDecoration: 'none',
+                    }}
+                >
+                    <Button
+                        dataTest={'back-to-search'}
+                        icon={<IconArrowLeft24 />}
+                    >
+                        {i18n.t('Back')}
+                    </Button>
+                </Link>
+            </div>
+        </div>
+        <style jsx>{`
+            .marginWrap {
+                margin: var(--spacers-dp12) var(--spacers-dp16)
+                    var(--spacers-dp12) var(--spacers-dp16);
+            }
+            .flexWrap {
+                display: flex;
+                align-items: center;
+            }
+            .backButtonWrap {
+                display: flex;
+                margin-left: auto;
+            }
+        `}</style>
+    </>
+)
 
 const ViewData = ({ match }) => {
     const query = useQuery()
@@ -96,8 +133,13 @@ const ViewData = ({ match }) => {
     return (
         <Layout>
             <>
-                {(loading || !queryExecuted) && <CircularLoader />}
-                {error && <span>{error.message}</span>}
+                {!error && (loading || !queryExecuted) && <CircularLoader />}
+                {error && (
+                    <>
+                        <BackButton />
+                        <ErrorMessage error={error} />
+                    </>
+                )}
                 {data && queryExecuted && (
                     <div className="container">
                         <div
@@ -142,21 +184,7 @@ const ViewData = ({ match }) => {
                                                 variables={variables}
                                             />
                                         )}
-                                        <div className="backButtonWrap">
-                                            <Link
-                                                to={`/`}
-                                                style={{
-                                                    textDecoration: 'none',
-                                                }}
-                                            >
-                                                <Button
-                                                    dataTest={'back-to-search'}
-                                                    icon={<IconArrowLeft24 />}
-                                                >
-                                                    {i18n.t('Back')}
-                                                </Button>
-                                            </Link>
-                                        </div>
+                                        <BackButton />
                                     </div>
                                     {Object.keys(variables).length > 0 &&
                                         !variablesDrawerOpen && (
@@ -222,10 +250,6 @@ const ViewData = ({ match }) => {
                 }
                 .buttonWrapLeft {
                     margin-left: var(--spacers-dp12);
-                }
-                .backButtonWrap {
-                    display: flex;
-                    margin-left: auto;
                 }
                 .linkButton {
                     margin-right: 8px;
