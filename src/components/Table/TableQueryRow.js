@@ -67,13 +67,13 @@ const TableQueryRow = ({
 )
 
 TableQueryRow.propTypes = {
-    maxRows: PropTypes.num,
+    maxRows: PropTypes.number,
     persistSearch: PropTypes.bool,
     refreshQuery: PropTypes.func,
-    rowCount: PropTypes.num,
+    rowCount: PropTypes.number,
     searchableDescription: PropTypes.string,
     setSearchText: PropTypes.func,
-    totalRows: PropTypes.num,
+    totalRows: PropTypes.number,
 }
 
 export default TableQueryRow
