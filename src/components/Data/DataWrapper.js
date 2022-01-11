@@ -20,8 +20,15 @@ const sqlDataQuery = {
     },
 }
 
-const DataWrapper = ({ variables, id, isView, setRefreshQuery }) => {
+const DataWrapper = ({
+    variables,
+    id,
+    initialExecuteError,
+    isView,
+    setRefreshQuery,
+}) => {
     const [variablesUsed, setVariablesUsed] = useState({})
+    const [executeError, setExecuteError] = useState(initialExecuteError)
     const engine = useDataEngine()
     const { loading, error, data, refetch } = useDataQuery(sqlDataQuery, {
         variables: {
@@ -37,8 +44,12 @@ const DataWrapper = ({ variables, id, isView, setRefreshQuery }) => {
         }
         if (isView) {
             executeQuery.resource = `sqlViews/${id}/execute`
-            await engine.mutate(executeQuery)
-            refetch({ id: `${id}/data` })
+            try {
+                await engine.mutate(executeQuery)
+                refetch({ id: `${id}/data` })
+            } catch (e) {
+                setExecuteError(e)
+            }
         } else {
             setVariablesUsed(refreshVariables)
             refetch({
@@ -65,10 +76,10 @@ const DataWrapper = ({ variables, id, isView, setRefreshQuery }) => {
     return (
         <>
             {loading && <CircularLoader />}
-            {error && (
+            {(error || executeError) && (
                 <>
                     <TableQueryRow refreshQuery={refreshQuery} />
-                    <ErrorMessage error={error} />
+                    <ErrorMessage error={executeError ? executeError : error} />
                 </>
             )}
             {data && (
@@ -90,6 +101,7 @@ const DataWrapper = ({ variables, id, isView, setRefreshQuery }) => {
 
 DataWrapper.propTypes = {
     id: PropTypes.string,
+    initialExecuteError: PropTypes.object,
     isView: PropTypes.bool,
     setRefreshQuery: PropTypes.func,
     variables: PropTypes.object,

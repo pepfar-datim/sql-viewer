@@ -33,32 +33,19 @@ const QUERY_TYPE = 'QUERY'
 
 const BackButton = () => (
     <>
-        <div className="marginWrap flexWrap">
-            <div className="backButtonWrap">
-                <Link
-                    to={`/`}
-                    style={{
-                        textDecoration: 'none',
-                    }}
-                >
-                    <Button
-                        dataTest={'back-to-search'}
-                        icon={<IconArrowLeft24 />}
-                    >
-                        {i18n.t('Back')}
-                    </Button>
-                </Link>
-            </div>
+        <div className="backButtonWrap">
+            <Link
+                to={`/`}
+                style={{
+                    textDecoration: 'none',
+                }}
+            >
+                <Button dataTest={'back-to-search'} icon={<IconArrowLeft24 />}>
+                    {i18n.t('Back')}
+                </Button>
+            </Link>
         </div>
         <style jsx>{`
-            .marginWrap {
-                margin: var(--spacers-dp12) var(--spacers-dp16)
-                    var(--spacers-dp12) var(--spacers-dp16);
-            }
-            .flexWrap {
-                display: flex;
-                align-items: center;
-            }
             .backButtonWrap {
                 display: flex;
                 margin-left: auto;
@@ -76,6 +63,7 @@ const ViewData = ({ match }) => {
     const [queryExecuted, setQueryExecuted] = useState(false)
     const [linksMenuOpen, setLinksMenuOpen] = useState(false)
     const [refreshQuery, setRefreshQuery] = useState(null)
+    const [executeError, setExecuteError] = useState(null)
 
     const toggleLinksMenu = () => {
         setLinksMenuOpen(!linksMenuOpen)
@@ -100,8 +88,14 @@ const ViewData = ({ match }) => {
 
         if (d.sqlView.type === VIEW_TYPE) {
             executeQuery.resource = `sqlViews/${id}/execute`
-            const resp = await engine.mutate(executeQuery)
-            if (resp) {
+            try {
+                const resp = await engine.mutate(executeQuery)
+                if (resp) {
+                    setQueryExecuted(true)
+                }
+            } catch (e) {
+                setExecuteError(e)
+            } finally {
                 setQueryExecuted(true)
             }
         } else {
@@ -133,10 +127,12 @@ const ViewData = ({ match }) => {
     return (
         <Layout>
             <>
-                {!error && (loading || !queryExecuted) && <CircularLoader />}
+                {(loading || !queryExecuted) && <CircularLoader />}
                 {error && (
                     <>
-                        <BackButton />
+                        <div className="marginWrap flexWrap">
+                            <BackButton />
+                        </div>
                         <ErrorMessage error={error} />
                     </>
                 )}
@@ -198,6 +194,7 @@ const ViewData = ({ match }) => {
                                     {
                                         <DataWrapper
                                             id={id}
+                                            initialExecuteError={executeError}
                                             variables={variables}
                                             isView={
                                                 data.sqlView.type === VIEW_TYPE
