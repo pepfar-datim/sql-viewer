@@ -47,14 +47,6 @@ Then('search field still has {string}', searchTerm => {
     cy.get('#searchField').should('have.value', searchTerm)
 })
 
-When('I click more button for query with id {string}', queryID => {
-    cy.get(`[data-test="moreButton_${queryID}"]`).click()
-})
-
-When('I click {string} link', linkString => {
-    cy.contains(linkString).click()
-})
-
 Then(
     '{string} link should have link to {string} for query {string}',
     (linkString, resource, queryID) => {

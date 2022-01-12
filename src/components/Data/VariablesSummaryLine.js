@@ -8,6 +8,7 @@ const VariablesSummaryLine = ({ variables, toggleVariableDrawer }) => (
         <div className="variablesLineWrap">
             <div className="elementSpacer">
                 <Button
+                    dataTest="variable-drawer-toggle-collapse"
                     icon={<IconAddCircle24 />}
                     small
                     onClick={toggleVariableDrawer}

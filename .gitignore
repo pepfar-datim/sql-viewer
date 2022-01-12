@@ -6,3 +6,4 @@ build
 *.DS_Store
 cypress.env.json
 cypress/videos
+cypress/downloads

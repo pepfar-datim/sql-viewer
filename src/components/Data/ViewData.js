@@ -162,6 +162,7 @@ const ViewData = ({ match }) => {
                                             className="buttonWrapLeft"
                                         >
                                             <Button
+                                                dataTest="moreButton_view"
                                                 icon={<IconMore24 />}
                                                 small
                                                 onClick={() => {

@@ -25,6 +25,7 @@ const VariablesDrawerMenu = ({
                 <div className="flexWrap">
                     <div className="buttonWrap">
                         <Button
+                            dataTest="variable-drawer-toggle-expand"
                             icon={<IconSubtractCircle24 />}
                             small
                             onClick={toggleVariableDrawer}
@@ -50,6 +51,7 @@ const VariablesDrawerMenu = ({
                             {refreshQuery !== null && (
                                 <div className="rightButtonOuter">
                                     <Button
+                                        dataTest="refresh-query-left"
                                         icon={<IconSync24 />}
                                         type="submit"
                                         primary
