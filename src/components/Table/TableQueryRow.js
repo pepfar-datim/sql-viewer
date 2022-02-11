@@ -34,6 +34,7 @@ const TableQueryRow = ({
                 <div className="rightButtonOuter">
                     <div>
                         <Button
+                            dataTest="refresh-query-right"
                             icon={<IconSync24 />}
                             primary
                             onClick={() => {

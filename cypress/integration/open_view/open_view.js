@@ -22,12 +22,12 @@ Given('I am on page for sql view with id {string}', queryID => {
 })
 
 When('I click Download button', () => {
-    cy.contains('Download CSV').click()
+    cy.get(`[data-test="downloadCSVButton"]`).click()
 })
 
 Then('results for {string} query download to csv', queryName => {
     const expectedCSV =
-        'name,code\n0-validations,\nART monthly summary,DS_394131\nChild Health,DS_359711\nClinical Monitoring Checklist,DS_217115\nEPI Stock,DS_1149441\nEmergency Response,\nExpenditures,EXP\nFacility Assessment,DS_1151444\nHIV Care Monthly,HIV_CARE\nHIV Peadiatric monthly summary,DS_377538\nIDSR Weekly,\nIDSR Weekly (Start Wednesday),\nInpatient Morbidity/Mortality Summary,DS_1151033\nLife-Saving Commodities,DS_1153709\nMNCH Quarterly Report,DS_1151032\nMorbidity,DS_359414\nMortality < 5 years,DS_1148628\nMortality < 5 years Narratives,DS_283467\nMortality < 5 years by age group,DS_242322\nMortality < 5 years by gender,DS_812532\nPMTCT monthly summary,DS_363642\nPopulation,DS_490350\nProject Management,DS_123523\nReproductive Health,DS_359593\nStaffing,DS_360545\nTB Facility Reporting Form,DS_543073\nTB/HIV (VCCT) monthly summary,DS_387142\n'
+        'name,code\n0-CatOptionExpiry,\nART monthly summary,DS_394131\nChild Health,DS_359711\nClinical Monitoring Checklist,DS_217115\nEPI Stock,DS_1149441\nEmergency Response,\nExpenditures,EXP\nFacility Assessment,DS_1151444\nHIV Care Monthly,HIV_CARE\nHIV Peadiatric monthly summary,DS_377538\nIDSR Weekly,\nIDSR Weekly (Start Wednesday),\nInpatient Morbidity/Mortality Summary,DS_1151033\nLife-Saving Commodities,DS_1153709\nMNCH Quarterly Report,DS_1151032\nMorbidity,DS_359414\nMortality < 5 years,DS_1148628\nMortality < 5 years Narratives,DS_283467\nMortality < 5 years by age group,DS_242322\nMortality < 5 years by gender,DS_812532\nPMTCT monthly summary,DS_363642\nPopulation,DS_490350\nProject Management,DS_123523\nReproductive Health,DS_359593\nStaffing,DS_360545\nTB Facility Reporting Form,DS_543073\nTB/HIV (VCCT) monthly summary,DS_387142\n'
     const downloadsFolder = cy.config('downloadsFolder')
     cy.readFile(path.join(downloadsFolder, `${queryName}.csv`)).should('exist')
     cy.readFile(path.join(downloadsFolder, `${queryName}.csv`)).should(
@@ -43,7 +43,7 @@ Then('page redirects to main page to select queries', () => {
 When('I click Refresh query button', () => {
     // need to review because button is being clicked before visible
     cy.wait(1000)
-    cy.contains('Refresh Query').click({ force: true })
+    cy.get(`[data-test="refresh-query-right"]`).click({ force: true })
 
     // this isn't working, also data xhr isn't showing up
     cy.intercept('POST', '**/sqlViews/cOfhJIFGqhP/execute**', {}).as('postData')
@@ -117,9 +117,6 @@ Then('code column is not alphabetized', () => {
     cy.get('.tableContainer table tbody tr').eq(1).contains('DS_394131')
 })
 
-Then(
-    'code column is ordered based on name ordering',
-    () => {
-        cy.get('.tableContainer table tbody tr').eq(1).contains('DS_394131')
-    }
-)
+Then('code column is ordered based on name ordering', () => {
+    cy.get('.tableContainer table tbody tr').eq(1).contains('DS_394131')
+})
