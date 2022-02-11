@@ -1,4 +1,4 @@
-import { useDataEngine, useDataQuery } from '@dhis2/app-runtime'
+import { useConfig, useDataEngine, useDataQuery } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { CircularLoader } from '@dhis2/ui'
 import PropTypes from 'prop-types'
@@ -27,6 +27,7 @@ const DataWrapper = ({
     isView,
     setRefreshQuery,
 }) => {
+    const { baseUrl, apiVersion } = useConfig()
     const [variablesUsed, setVariablesUsed] = useState({})
     const [executeError, setExecuteError] = useState(initialExecuteError)
     const engine = useDataEngine()
@@ -66,9 +67,7 @@ const DataWrapper = ({
     const getDownloadURL = () => {
         const downloadVariables =
             Object.keys(variablesUsed).length > 0 ? variablesUsed : variables
-        return `${engine.link.baseUrl}/${
-            engine.link.apiPath
-        }/sqlViews/${id}/data.csv?paging=false&var=${parameterizeVariablesQuery(
+        return `${baseUrl}/api/${apiVersion}/sqlViews/${id}/data.csv?paging=false&var=${parameterizeVariablesQuery(
             downloadVariables
         ).join(',')}`
     }

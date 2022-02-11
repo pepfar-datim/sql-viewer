@@ -1,3 +1,4 @@
+import { useConfig } from '@dhis2/app-runtime'
 import { InputField } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
@@ -8,6 +9,7 @@ const SearchField = ({
     searchableDescription,
     setSearchText,
 }) => {
+    const { baseUrl } = useConfig()
     const query = useQuery()
     const [searchInput, setSearchInput] = useState('')
     const [searchTextTimeout, setSearchTextTimeout] = useState('')
@@ -29,7 +31,7 @@ const SearchField = ({
             window.history.pushState(
                 null,
                 null,
-                getSearchTermLink({ searchTerm: searchInput })
+                getSearchTermLink({ searchTerm: searchInput, baseUrl })
             )
             sessionStorage.setItem('appSearchTerm', searchInput)
         }

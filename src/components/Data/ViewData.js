@@ -1,4 +1,4 @@
-import { useDataEngine, useDataQuery } from '@dhis2/app-runtime'
+import { useConfig, useDataEngine, useDataQuery } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { Button, CircularLoader, IconArrowLeft24, IconMore24 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
@@ -55,6 +55,7 @@ const BackButton = () => (
 )
 
 const ViewData = ({ match }) => {
+    const { baseUrl } = useConfig()
     const query = useQuery()
     const engine = useDataEngine()
     const id = match.params.id
@@ -113,7 +114,7 @@ const ViewData = ({ match }) => {
         window.history.pushState(
             null,
             null,
-            getVariablesLink({ id, variables: updatedVariables })
+            getVariablesLink({ id, variables: updatedVariables, baseUrl })
         )
         setVariables(updatedVariables)
     }

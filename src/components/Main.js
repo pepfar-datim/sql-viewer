@@ -10,8 +10,16 @@ const Main = () => {
         <>
             <Router>
                 <Switch>
-                    <Route path="/view/:id" component={ViewData} />
-                    <Route>
+                    <Route
+                        exact
+                        path="/view/:id"
+                        render={props => (
+                            <Layout>
+                                <ViewData {...props} />
+                            </Layout>
+                        )}
+                    />
+                    <Route path="/">
                         <Layout>
                             <SelectQuery />
                         </Layout>
