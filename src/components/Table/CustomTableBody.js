@@ -11,6 +11,7 @@ import {
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState, isValidElement } from 'react'
+import { convertGzip } from '../../services/convertGzip'
 
 const generateRandomKey = keyLength => {
     let key = ''
@@ -38,6 +39,13 @@ const CustomTableRow = ({ row }) => (
                 return (
                     <TableCell key={randomKey}>
                         {JSON.stringify(displayItem)}
+                    </TableCell>
+                )
+            }
+            if (typeof displayItem === 'string') {
+                return (
+                    <TableCell key={randomKey}>
+                        {convertGzip(displayItem)}
                     </TableCell>
                 )
             }
