@@ -35,7 +35,7 @@ const CustomTableRow = ({ row }) => (
             if (isValidElement(displayItem)) {
                 return <TableCell key={randomKey}>{displayItem}</TableCell>
             }
-            if (typeof displayItem === 'object') {
+            if (['object', 'boolean'].includes(typeof displayItem)) {
                 return (
                     <TableCell key={randomKey}>
                         {JSON.stringify(displayItem)}
