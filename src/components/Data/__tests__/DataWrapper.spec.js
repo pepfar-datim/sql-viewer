@@ -50,14 +50,11 @@ jest.mock('@dhis2/app-runtime', () => ({
         }
     },
     useDataEngine: () => {
-        return {
-            link: {
-                apiPath: 'api',
-                baseUrl: 'https://awesomeDHIS2Instance.org',
-            },
+        ;({
             mutate: () => {},
-        }
+        })
     },
+    useConfig: () => ({ baseUrl: 'https://awesomeDHIS2Instance.org' }),
 }))
 
 describe('DataWrapper', () => {

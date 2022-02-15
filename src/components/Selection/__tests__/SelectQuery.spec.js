@@ -1,4 +1,4 @@
-import { DataQuery } from '@dhis2/app-runtime'
+import { DataQuery, useConfig } from '@dhis2/app-runtime'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import React from 'react'
@@ -7,13 +7,21 @@ import SelectQuery from '../SelectQuery'
 
 jest.mock('@dhis2/app-runtime', () => ({
     DataQuery: jest.fn(),
+    useConfig: jest.fn(),
 }))
 
 describe('SelectQuery', () => {
+    beforeEach(() => {
+        useConfig.mockImplementation(() => ({
+            baseUrl: 'www.dogs_are_great.dog',
+        }))
+    })
+
     it('it renders error message if one is present', () => {
         DataQuery.mockImplementation(({ children }) => {
             return children({ error: { message: 'anteaters are cute!' } })
         })
+
         render(
             <SelectQuery
                 id="abc"
@@ -38,6 +46,7 @@ describe('SelectQuery', () => {
                 },
             })
         })
+
         render(
             <MemoryRouter>
                 <SelectQuery
