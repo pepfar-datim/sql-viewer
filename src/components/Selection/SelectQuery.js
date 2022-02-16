@@ -55,7 +55,11 @@ LinksButton.propTypes = {
 }
 
 const SelectQuery = () => {
-    const selectHeaders = [{ name: i18n.t('name') }, '']
+    const selectHeaders = [
+        { name: i18n.t('name') },
+        '',
+        { name: 'uid', hidden: true },
+    ]
 
     return (
         <DataQuery query={sqlViewsQuery}>
@@ -100,6 +104,7 @@ const SelectQuery = () => {
                                         {
                                             display: <LinksButton id={d.id} />,
                                         },
+                                        d.id,
                                     ]
                                 })}
                                 tableColumns={selectHeaders}
