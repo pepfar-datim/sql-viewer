@@ -8,6 +8,7 @@ const VariablesSummaryLine = ({ variables, toggleVariableDrawer }) => (
         <div className="variablesLineWrap">
             <div className="elementSpacer">
                 <Button
+                    dataTest="variable-drawer-toggle-collapse"
                     icon={<IconAddCircle24 />}
                     small
                     onClick={toggleVariableDrawer}
@@ -56,7 +57,7 @@ const VariablesSummaryLine = ({ variables, toggleVariableDrawer }) => (
 
 VariablesSummaryLine.propTypes = {
     toggleVariableDrawer: PropTypes.func,
-    variables: PropTypes.array,
+    variables: PropTypes.object,
 }
 
 export default VariablesSummaryLine

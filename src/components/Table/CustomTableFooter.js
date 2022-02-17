@@ -18,6 +18,7 @@ const CustomTableFooter = ({
         <div className="tableEnd">
             {downloadURL && (
                 <Button
+                    dataTest="downloadCSVButton"
                     icon={<IconDownload16 />}
                     onClick={() => {
                         window.open(downloadURL)

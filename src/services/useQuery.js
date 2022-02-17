@@ -15,12 +15,13 @@ export const useQuery = () => {
     }, [search])
 }
 
-export const getSearchTermLink = ({ searchTerm }) => {
-    let linkURL = `${location.origin}/#`
+export const getSearchTermLink = ({ searchTerm, baseUrl }) => {
+    let linkURL
     if (process.env.NODE_ENV !== 'development') {
-        linkURL = `${location.origin}/api/apps/SQLViewer/index.html#`
+        linkURL = `${baseUrl}/api/apps/SQLViewer/index.html#/`
+    } else {
+        linkURL = `${location.origin}/#/`
     }
-    linkURL += `/`
     if (searchTerm !== '') {
         linkURL += `?appSearchTerm=${searchTerm}`
     }

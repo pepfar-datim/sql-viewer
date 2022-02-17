@@ -11,6 +11,7 @@ import {
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { useState, isValidElement } from 'react'
+import { convertGzip } from '../../services/convertGzip'
 
 const generateRandomKey = keyLength => {
     let key = ''
@@ -21,33 +22,43 @@ const generateRandomKey = keyLength => {
     return key
 }
 
-const CustomTableRow = ({ row }) => (
+const CustomTableRow = ({ row, hiddenCells }) => (
     <TableRow>
-        {row.map(d => {
-            const randomKey = generateRandomKey(6)
-            if (d === null) {
-                return <TableCell key={randomKey} />
-            }
+        {row
+            .filter((c, ind) => !hiddenCells.includes(ind))
+            .map(d => {
+                const randomKey = generateRandomKey(6)
+                if (d === null) {
+                    return <TableCell key={randomKey} />
+                }
 
-            const displayItem = d.display || d
+                const displayItem = d.display || d
 
-            if (isValidElement(displayItem)) {
+                if (isValidElement(displayItem)) {
+                    return <TableCell key={randomKey}>{displayItem}</TableCell>
+                }
+                if (['object', 'boolean'].includes(typeof displayItem)) {
+                    return (
+                        <TableCell key={randomKey}>
+                            {JSON.stringify(displayItem)}
+                        </TableCell>
+                    )
+                }
+                if (typeof displayItem === 'string') {
+                    return (
+                        <TableCell key={randomKey}>
+                            {convertGzip(displayItem)}
+                        </TableCell>
+                    )
+                }
+
                 return <TableCell key={randomKey}>{displayItem}</TableCell>
-            }
-            if (typeof displayItem === 'object') {
-                return (
-                    <TableCell key={randomKey}>
-                        {JSON.stringify(displayItem)}
-                    </TableCell>
-                )
-            }
-
-            return <TableCell key={randomKey}>{displayItem}</TableCell>
-        })}
+            })}
     </TableRow>
 )
 
 CustomTableRow.propTypes = {
+    hiddenCells: PropTypes.array,
     row: PropTypes.array,
 }
 
@@ -94,29 +105,32 @@ const CustomTableBody = ({ maxRows, pagePosition, rows, headers }) => {
                 <Table>
                     <TableHead>
                         <TableRowHead>
-                            {headers.map(h => (
-                                <TableCellHead key={`headerCell_${h.name}`}>
-                                    {h.notSortable ? (
-                                        <div>
-                                            <span>{h.name}</span>
-                                        </div>
-                                    ) : (
-                                        <div
-                                            onClick={() => {
-                                                setSortColumn(h.name)
-                                            }}
-                                        >
-                                            <span>{h.name}</span>
-                                            {h.name == sortedColumn.column &&
-                                                (sortedColumn.up ? (
-                                                    <IconArrowUp24 />
-                                                ) : (
-                                                    <IconArrowDown24 />
-                                                ))}
-                                        </div>
-                                    )}
-                                </TableCellHead>
-                            ))}
+                            {headers
+                                .filter(h => !h?.hidden)
+                                .map(h => (
+                                    <TableCellHead key={`headerCell_${h.name}`}>
+                                        {h.notSortable ? (
+                                            <div>
+                                                <span>{h.name}</span>
+                                            </div>
+                                        ) : (
+                                            <div
+                                                onClick={() => {
+                                                    setSortColumn(h.name)
+                                                }}
+                                            >
+                                                <span>{h.name}</span>
+                                                {h.name ==
+                                                    sortedColumn.column &&
+                                                    (sortedColumn.up ? (
+                                                        <IconArrowUp24 />
+                                                    ) : (
+                                                        <IconArrowDown24 />
+                                                    ))}
+                                            </div>
+                                        )}
+                                    </TableCellHead>
+                                ))}
                         </TableRowHead>
                     </TableHead>
                     <TableBody>
@@ -129,6 +143,11 @@ const CustomTableBody = ({ maxRows, pagePosition, rows, headers }) => {
                                 <CustomTableRow
                                     key={generateRandomKey(6)}
                                     row={row}
+                                    hiddenCells={headers
+                                        .map((h, index) =>
+                                            h?.hidden ? index : -1
+                                        )
+                                        .filter(i => i !== -1)}
                                 />
                             ))}
                     </TableBody>

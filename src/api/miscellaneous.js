@@ -3,8 +3,9 @@ export const executeQuery = {
     type: 'create',
 }
 
-export const getEditLink = (engine, id) =>
-    `${engine.link.baseUrl}/dhis-web-maintenance/index.html#/edit/otherSection/sqlView/${id}`
+export const getEditLink = ({ baseUrl, id }) => {
+    return `${baseUrl}/dhis-web-maintenance/index.html#/edit/otherSection/sqlView/${id}`
+}
 
-export const getApiLink = (engine, id) =>
-    `${engine.link.baseUrl}/api/sqlViews/${id}.json`
+export const getApiLink = ({ baseUrl, apiVersion, id }) =>
+    `${baseUrl}/api/${apiVersion}/sqlViews/${id}.json`

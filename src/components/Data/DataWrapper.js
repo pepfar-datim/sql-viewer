@@ -1,4 +1,4 @@
-import { useDataEngine, useDataQuery } from '@dhis2/app-runtime'
+import { useConfig, useDataEngine, useDataQuery } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { CircularLoader } from '@dhis2/ui'
 import PropTypes from 'prop-types'
@@ -20,8 +20,16 @@ const sqlDataQuery = {
     },
 }
 
-const DataWrapper = ({ variables, id, isView, setRefreshQuery }) => {
+const DataWrapper = ({
+    variables,
+    id,
+    initialExecuteError,
+    isView,
+    setRefreshQuery,
+}) => {
+    const { baseUrl, apiVersion } = useConfig()
     const [variablesUsed, setVariablesUsed] = useState({})
+    const [executeError, setExecuteError] = useState(initialExecuteError)
     const engine = useDataEngine()
     const { loading, error, data, refetch } = useDataQuery(sqlDataQuery, {
         variables: {
@@ -37,8 +45,12 @@ const DataWrapper = ({ variables, id, isView, setRefreshQuery }) => {
         }
         if (isView) {
             executeQuery.resource = `sqlViews/${id}/execute`
-            await engine.mutate(executeQuery)
-            refetch({ id: `${id}/data` })
+            try {
+                await engine.mutate(executeQuery)
+                refetch({ id: `${id}/data` })
+            } catch (e) {
+                setExecuteError(e)
+            }
         } else {
             setVariablesUsed(refreshVariables)
             refetch({
@@ -55,9 +67,7 @@ const DataWrapper = ({ variables, id, isView, setRefreshQuery }) => {
     const getDownloadURL = () => {
         const downloadVariables =
             Object.keys(variablesUsed).length > 0 ? variablesUsed : variables
-        return `${engine.link.baseUrl}/${
-            engine.link.apiPath
-        }/sqlViews/${id}/data.csv?paging=false&var=${parameterizeVariablesQuery(
+        return `${baseUrl}/api/${apiVersion}/sqlViews/${id}/data.csv?paging=false&var=${parameterizeVariablesQuery(
             downloadVariables
         ).join(',')}`
     }
@@ -65,10 +75,10 @@ const DataWrapper = ({ variables, id, isView, setRefreshQuery }) => {
     return (
         <>
             {loading && <CircularLoader />}
-            {error && (
+            {(error || executeError) && (
                 <>
                     <TableQueryRow refreshQuery={refreshQuery} />
-                    <ErrorMessage error={error} />
+                    <ErrorMessage error={executeError ? executeError : error} />
                 </>
             )}
             {data && (
@@ -90,6 +100,7 @@ const DataWrapper = ({ variables, id, isView, setRefreshQuery }) => {
 
 DataWrapper.propTypes = {
     id: PropTypes.string,
+    initialExecuteError: PropTypes.object,
     isView: PropTypes.bool,
     setRefreshQuery: PropTypes.func,
     variables: PropTypes.object,

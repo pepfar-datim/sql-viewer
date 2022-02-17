@@ -1,4 +1,4 @@
-import { useDataEngine } from '@dhis2/app-runtime'
+import { useConfig } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import {
     Menu,
@@ -10,7 +10,6 @@ import {
 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { getEditLink, getApiLink } from '../../api/miscellaneous'
 import { getVariablesLink } from '../../services/extractVariables'
 
@@ -42,7 +41,7 @@ const LinksMenu = ({
     toggleLinksMenu,
     variables,
 }) => {
-    const engine = useDataEngine()
+    const { baseUrl, apiVersion } = useConfig()
 
     return (
         <Popover
@@ -53,35 +52,34 @@ const LinksMenu = ({
         >
             <Menu>
                 {isSearchPage && (
-                    <Link
-                        to={`/view/${id}`}
-                        style={{
-                            textDecoration: 'none',
-                        }}
-                    >
-                        <MenuItem
-                            icon={<IconView24 />}
-                            dense
-                            label={i18n.t('open in sql viewer')}
-                        />
-                    </Link>
+                    <MenuItem
+                        href={`#/view/${id}`}
+                        icon={<IconView24 />}
+                        dense
+                        label={i18n.t('open in sql viewer')}
+                    />
                 )}
+
                 <MenuItem
+                    href={getApiLink({ baseUrl, apiVersion, id })}
                     icon={<CodeIcon />}
                     dense
                     label={i18n.t('open in api')}
                     onClick={() => {
-                        window.open(getApiLink(engine, id))
+                        window.open(getApiLink({ baseUrl, apiVersion, id }))
                     }}
                 />
+
                 <MenuItem
+                    href={getEditLink({ baseUrl, id })}
                     icon={<IconEdit24 />}
                     dense
                     label={i18n.t('open in maintenance app')}
                     onClick={() => {
-                        window.open(getEditLink(engine, id))
+                        window.open(getEditLink({ baseUrl, id }))
                     }}
                 />
+
                 {!isSearchPage && (
                     <MenuItem
                         icon={<IconLink24 />}
@@ -89,7 +87,7 @@ const LinksMenu = ({
                         label={i18n.t('copy link')}
                         onClick={() => {
                             navigator.clipboard.writeText(
-                                getVariablesLink({ id, variables })
+                                getVariablesLink({ id, variables, baseUrl })
                             )
                         }}
                     />
