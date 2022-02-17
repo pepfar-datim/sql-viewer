@@ -1,7 +1,10 @@
 {
     "name": "SQLViewer",
-    "version": "1.0.2",
-    "description": "",
+    "version": "1.0.3",
+    "developer": {
+        "name": "PEPFAR"
+    },
+    "description": "SQL Viewer offers a user-friendly viewing experience for SQL views and SQL queries, allowing for variable entry, search within query results, and column sorting. Visit https://github.com/pepfar-datim/sql-viewer for more info.",
     "license": "BSD-3-Clause",
     "private": true,
     "scripts": {
