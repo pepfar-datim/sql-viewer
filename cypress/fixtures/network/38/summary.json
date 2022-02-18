@@ -1,8 +1,13 @@
 {
-    "count": 28,
-    "totalResponseSize": 12527,
-    "duplicates": 18,
-    "nonDeterministicResponses": 2,
-    "apiVersion": "38",
-    "fixtureFiles": ["static_resources.json", "selecting_a_sql_query.json"]
+    "count": 215,
+    "totalResponseSize": 36185,
+    "duplicates": 193,
+    "nonDeterministicResponses": 21,
+    "apiVersion": 38,
+    "fixtureFiles": [
+        "static_resources.json",
+        "opening_a_sql_query_(with_variables).json",
+        "opening_a_sql_view_(no_variables).json",
+        "selecting_a_sql_query.json"
+    ]
 }

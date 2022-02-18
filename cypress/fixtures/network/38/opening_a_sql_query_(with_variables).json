@@ -1,0 +1,130 @@
+[
+    {
+        "path": "/api/38/systemSettings/helpPageLink",
+        "featureName": "Opening a SQL Query (with variables)",
+        "static": false,
+        "count": 7,
+        "nonDeterministic": false,
+        "method": "GET",
+        "requestBody": "",
+        "requestHeaders": {
+            "host": "localhost:8080",
+            "proxy-connection": "keep-alive",
+            "accept": "application/json",
+            "origin": "http://localhost:3000",
+            "sec-fetch-site": "same-site",
+            "sec-fetch-mode": "cors"
+        },
+        "statusCode": 200,
+        "responseBody": "{\"helpPageLink\":\"https://dhis2.github.io/dhis2-docs/master/en/user/html/dhis2_user_manual_en.html\"}",
+        "responseSize": 99,
+        "responseHeaders": {
+            "access-control-allow-credentials": "true",
+            "access-control-allow-origin": "http://localhost:3000",
+            "vary": "Origin",
+            "access-control-expose-headers": "ETag, Location",
+            "cache-control": "no-cache, private",
+            "content-type": "application/json;charset=utf-8",
+            "x-content-type-options": "nosniff",
+            "x-xss-protection": "1; mode=block",
+            "x-frame-options": "SAMEORIGIN",
+            "server": "Jetty(10.0.7)"
+        }
+    },
+    {
+        "path": "/api/38/sqlViews/qMYMT0iUGkG?paging=false&fields=id%2Cname%2Ctype%2CsqlQuery",
+        "featureName": "Opening a SQL Query (with variables)",
+        "static": false,
+        "count": 7,
+        "nonDeterministic": false,
+        "method": "GET",
+        "requestBody": "",
+        "requestHeaders": {
+            "host": "localhost:8080",
+            "proxy-connection": "keep-alive",
+            "accept": "application/json",
+            "origin": "http://localhost:3000",
+            "sec-fetch-site": "same-site",
+            "sec-fetch-mode": "cors"
+        },
+        "statusCode": 200,
+        "responseBody": "{\"name\":\"Data element by value type\",\"id\":\"qMYMT0iUGkG\",\"sqlQuery\":\"select * from dataelement where valuetype='${valueType}';\",\"type\":\"QUERY\"}",
+        "responseSize": 142,
+        "responseHeaders": {
+            "access-control-allow-credentials": "true",
+            "access-control-allow-origin": "http://localhost:3000",
+            "vary": "Origin",
+            "access-control-expose-headers": "ETag, Location",
+            "cache-control": "no-cache, private",
+            "content-type": "application/json",
+            "x-content-type-options": "nosniff",
+            "x-xss-protection": "1; mode=block",
+            "x-frame-options": "SAMEORIGIN",
+            "server": "Jetty(10.0.7)"
+        }
+    },
+    {
+        "path": "/api/38/sqlViews/qMYMT0iUGkG/data?paging=false&var=valueType%3A",
+        "featureName": "Opening a SQL Query (with variables)",
+        "static": false,
+        "count": 1,
+        "nonDeterministic": false,
+        "method": "GET",
+        "requestBody": "",
+        "requestHeaders": {
+            "host": "localhost:8080",
+            "proxy-connection": "keep-alive",
+            "accept": "application/json",
+            "origin": "http://localhost:3000",
+            "sec-fetch-site": "same-site",
+            "sec-fetch-mode": "cors"
+        },
+        "statusCode": 409,
+        "responseBody": "{\"httpStatus\":\"Conflict\",\"httpStatusCode\":409,\"status\":\"ERROR\",\"message\":\"SQL query contains variables not provided in request: `[valueType]`\",\"errorCode\":\"E4307\"}",
+        "responseSize": 163,
+        "responseHeaders": {
+            "access-control-allow-credentials": "true",
+            "access-control-allow-origin": "http://localhost:3000",
+            "vary": "Origin",
+            "access-control-expose-headers": "ETag, Location",
+            "content-type": "application/json;charset=utf-8",
+            "cache-control": "max-age=1209600, public",
+            "x-content-type-options": "nosniff",
+            "x-xss-protection": "1; mode=block",
+            "x-frame-options": "SAMEORIGIN",
+            "server": "Jetty(10.0.7)"
+        }
+    },
+    {
+        "path": "/api/38/sqlViews/qMYMT0iUGkG/data?paging=false&var=valueType%3AINTEGER",
+        "featureName": "Opening a SQL Query (with variables)",
+        "static": false,
+        "count": 1,
+        "nonDeterministic": false,
+        "method": "GET",
+        "requestBody": "",
+        "requestHeaders": {
+            "host": "localhost:8080",
+            "proxy-connection": "keep-alive",
+            "accept": "application/json",
+            "origin": "http://localhost:3000",
+            "sec-fetch-site": "same-site",
+            "sec-fetch-mode": "cors"
+        },
+        "statusCode": 200,
+        "responseBody": "{\"listGrid\":{\"metaData\":{},\"subtitle\":\"Data element by value type\",\"headerWidth\":27,\"width\":27,\"title\":\"Data element by value type\",\"height\":26,\"headers\":[{\"hidden\":false,\"meta\":false,\"column\":\"dataelementid\",\"name\":\"dataelementid\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"name\",\"name\":\"name\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"shortname\",\"name\":\"shortname\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"code\",\"name\":\"code\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"description\",\"name\":\"description\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"valuetype\",\"name\":\"valuetype\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"aggregationtype\",\"name\":\"aggregationtype\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"parentid\",\"name\":\"parentid\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"categorycomboid\",\"name\":\"categorycomboid\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"url\",\"name\":\"url\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"domaintype\",\"name\":\"domaintype\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"lastupdated\",\"name\":\"lastupdated\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"zeroissignificant\",\"name\":\"zeroissignificant\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"formname\",\"name\":\"formname\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"uid\",\"name\":\"uid\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"optionsetid\",\"name\":\"optionsetid\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"created\",\"name\":\"created\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"userid\",\"name\":\"userid\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"publicaccess\",\"name\":\"publicaccess\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"commentoptionsetid\",\"name\":\"commentoptionsetid\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"lastupdatedby\",\"name\":\"lastupdatedby\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"style\",\"name\":\"style\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"fieldmask\",\"name\":\"fieldmask\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"translations\",\"name\":\"translations\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"attributevalues\",\"name\":\"attributevalues\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"sharing\",\"name\":\"sharing\",\"type\":\"java.lang.String\"},{\"hidden\":false,\"meta\":false,\"column\":\"valuetypeoptions\",\"name\":\"valuetypeoptions\",\"type\":\"java.lang.String\"}],\"rows\":[[1496296,\"Residents in household who slept under a net the previous night\",\"Slept under net\",null,\"The number of residents within a household who slept under a net the previous night\",\"INTEGER\",\"SUM\",null,3,null,\"TRACKER\",\"2019-08-21T13:08:02.031\",false,null,\"KA6RY4BB41F\",null,\"2016-05-04T22:37:07.764\",1151265,\"r-------\",null,1150127,null,null,{},{},{},null],[424054,\"Voucher IUCD\",\"Voucher IUCD\",\"DE_424054\",null,\"INTEGER\",\"SUM\",null,3,\"\",\"TRACKER\",\"2015-10-20T12:04:25.234\",false,null,\"Qz3kfeKgLgL\",null,\"2015-10-20T12:01:06.507\",1150127,\"rw------\",null,null,null,null,{},{},{},null],[1496346,\"Residents had malaria past month\",\"Residents had malaria past month\",null,\"The number of residents in the household who had malaria within the previous month\",\"INTEGER\",\"SUM\",null,3,null,\"TRACKER\",\"2019-08-21T13:08:02.032\",false,\"Residents in household who had malaria within the previous month\",\"ECjafwJrxL5\",null,\"2016-05-04T22:40:36.728\",1151265,\"r-------\",null,1150127,null,null,{},{},{},null],[359706,\"BCG doses given\",\"BCG doses given\",\"DE_359706\",\"BCG doses administered.\",\"INTEGER\",\"SUM\",null,288,\"\",\"AGGREGATE\",\"2015-04-02T19:51:21.183\",false,null,\"s46m5MS0hxu\",null,\"2010-02-05T10:58:19.053\",1150127,\"rw------\",null,null,null,null,{},{},{},null],[1151062,\"Inpatient malaria cases\",\"Inpatient malaria cases\",\"DE_1151062\",null,\"INTEGER\",\"SUM\",null,1151057,\"\",\"AGGREGATE\",\"2014-11-11T21:56:05.432\",false,\"\",\"p4K11MFEWtw\",null,\"2013-04-09T14:46:40.923\",1150127,\"rw------\",null,null,null,null,{},{},{},null],[1151060,\"Inpatient cases\",\"Inpatient cases\",\"DE_1151060\",null,\"INTEGER\",\"SUM\",null,1151057,\"\",\"AGGREGATE\",\"2014-11-11T21:56:05.441\",false,\"\",\"WHBtsCMZVAE\",null,\"2013-04-09T14:45:58.243\",1150127,\"rw------\",null,null,null,null,{},{},{},null],[1151042,\"MNCH vacuum/forceps delivery\",\"MNCH vacuum/forceps delivery\",\"DE_1151042\",null,\"INTEGER\",\"SUM\",null,3,\"\",\"AGGREGATE\",\"2014-11-11T21:56:05.438\",false,\"\",\"g9Tso8plX88\",null,\"2013-04-09T14:27:24.265\",1150127,\"rw------\",null,null,null,null,{},{},{},null],[3000003,\"Age in years\",\"Age in years\",\"DE_3000003\",\"Age of person in years.\",\"INTEGER\",\"AVERAGE\",null,3,null,\"TRACKER\",\"2017-06-02T11:41:14.500\",false,\"Age (years)\",\"qrur9Dvnyt5\",null,\"2012-11-14T14:41:39.639\",1150127,\"rw------\",null,1150127,null,null,{},{},{},null],[1151043,\"MNCH Destructive operations delivery\",\"MNCH Destructive operations delivery\",\"DE_1151043\",null,\"INTEGER\",\"SUM\",null,3,\"\",\"AGGREGATE\",\"2014-11-11T21:56:05.439\",false,null,\"Q8lOv2CAUjf\",null,\"2013-04-09T14:27:40.469\",1150127,\"rw------\",null,null,null,null,{},{},{},null],[1151063,\"Inpatient malaria deaths\",\"Inpatient malaria deaths\",\"DE_1151063\",null,\"INTEGER\",\"SUM\",null,1151057,\"\",\"AGGREGATE\",\"2014-11-11T21:56:05.442\",false,\"\",\"wWy5TE9cQ0V\",null,\"2013-04-09T14:46:52.364\",1150127,\"rw------\",null,null,null,null,{},{},{},null],[1151034,\"MNCH ANC registrants\",\"MNCH ANC registrants\",\"DE_1151034\",null,\"INTEGER\",\"SUM\",null,3,\"\",\"AGGREGATE\",\"2014-11-11T21:56:05.594\",false,\"\",\"iYCGteGcr6Q\",null,\"2013-04-09T14:22:52.792\",1150127,\"rw------\",null,null,null,null,{},{},{},null],[1151035,\"MNCH ANC Attendance\",\"MNCH ANC Attendance\",\"DE_1151035\",null,\"INTEGER\",\"SUM\",null,3,\"\",\"AGGREGATE\",\"2014-11-11T21:56:05.433\",false,\"\",\"WQSdEl9xUMA\",null,\"2013-04-09T14:23:07.196\",1150127,\"rw------\",null,null,null,null,{},{},{},null],[1151036,\"MNCH Heamoglobin checks performed during ANC\",\"MNCH Heamoglobin checks performed\",\"DE_1151036\",null,\"INTEGER\",\"SUM\",null,3,\"\",\"AGGREGATE\",\"2014-11-11T21:56:05.434\",false,null,\"aLF5wmCZrKF\",null,\"2013-04-09T14:23:24.613\",1150127,\"rw------\",null,null,null,null,{},{},{},null],[1151037,\"MNCH Cases of anaemia during ANC\",\"MNCH Cases of anaemia during ANC\",\"DE_1151037\",null,\"INTEGER\",\"SUM\",null,3,\"\",\"AGGREGATE\",\"2014-11-11T21:56:05.434\",false,null,\"QhKQD2wHowC\",null,\"2013-04-09T14:23:53.267\",1150127,\"rw------\",null,null,null,null,{},{},{},null],[1151039,\"MNCH Normal deliveries\",\"MNCH Normal deliveries\",\"DE_1151039\",null,\"INTEGER\",\"SUM\",null,3,\"\",\"AGGREGATE\",\"2014-11-11T21:56:05.435\",false,\"\",\"SqvCDfGBFzM\",null,\"2013-04-09T14:25:45.070\",1150127,\"rw------\",null,null,null,null,{},{},{},null],[1151040,\"MNCH Caesarean section deliveries\",\"MNCH Caesarean section deliveries\",\"DE_1151040\",null,\"INTEGER\",\"SUM\",null,3,\"\",\"AGGREGATE\",\"2014-11-11T21:56:05.436\",false,\"\",\"DosHq4vnsYv\",null,\"2013-04-09T14:26:32.486\",1150127,\"rw------\",null,null,null,null,{},{},{},null],[1151041,\"MNCH Breech/shoulder delivery\",\"MNCH Breech/shoulder delivery\",\"DE_1151041\",null,\"INTEGER\",\"SUM\",null,3,\"\",\"AGGREGATE\",\"2014-11-11T21:56:05.437\",false,\"\",\"ijIsjbvXFJL\",null,\"2013-04-09T14:27:01.790\",1150127,\"rw------\",null,null,null,null,{},{},{},null],[1151061,\"Inpatient deaths\",\"Inpatient deaths\",\"DE_1151061\",null,\"INTEGER\",\"SUM\",null,1151057,\"\",\"AGGREGATE\",\"2014-11-11T21:56:05.441\",false,\"\",\"ZRVfMoPKK05\",null,\"2013-04-09T14:46:12.965\",1150127,\"rw------\",null,null,null,null,{},{},{},null],[424050,\"Voucher HTC\",\"Voucher HTC\",\"DE_424050\",null,\"INTEGER\",\"SUM\",null,3,\"\",\"TRACKER\",\"2015-10-20T12:03:58.972\",false,null,\"b6dOUjAarHD\",null,\"2015-10-20T12:01:05.290\",1150127,\"rw------\",null,null,null,null,{},{},{},null],[424051,\"Voucher IMCI\",\"Voucher IMCI\",\"DE_424051\",null,\"INTEGER\",\"SUM\",null,3,\"\",\"TRACKER\",\"2015-10-20T12:04:04.010\",false,null,\"W7aC8jLASW8\",null,\"2015-10-20T12:01:05.624\",1150127,\"rw------\",null,null,null,null,{},{},{},null],[424056,\"Voucher VMMC\",\"Voucher VMMC\",\"DE_424056\",null,\"INTEGER\",\"SUM\",null,3,\"\",\"TRACKER\",\"2015-10-20T12:04:42.991\",false,null,\"HyJL2Lt37jN\",null,\"2015-10-20T12:01:07.125\",1150127,\"rw------\",null,null,null,null,{},{},{},null],[424055,\"Voucher Pills\",\"Voucher Pills\",\"DE_424055\",null,\"INTEGER\",\"SUM\",null,3,\"\",\"TRACKER\",\"2015-10-20T12:04:34.920\",false,null,\"UwCXONyUtGs\",null,\"2015-10-20T12:01:06.781\",1150127,\"rw------\",null,null,null,null,{},{},{},null],[424052,\"Voucher Implants\",\"Voucher Implants\",\"DE_424052\",null,\"INTEGER\",\"SUM\",null,3,\"\",\"TRACKER\",\"2015-10-20T12:04:08.634\",false,null,\"fqnXmRYo5Cz\",null,\"2015-10-20T12:01:05.896\",1150127,\"rw------\",null,null,null,null,{},{},{},null],[424053,\"Voucher Injections\",\"Voucher Injections\",\"DE_424053\",null,\"INTEGER\",\"SUM\",null,3,\"\",\"TRACKER\",\"2015-10-20T12:04:17.133\",false,null,\"HrJmqlBqTFG\",null,\"2015-10-20T12:01:06.239\",1150127,\"rw------\",null,null,null,null,{},{},{},null],[890618,\"WHOMCH Gestational age at visit\",\"WHOMCH Gestational age at visit\",null,null,\"INTEGER\",\"SUM\",null,3,null,\"TRACKER\",\"2017-05-22T22:26:36.224\",false,\"Gestational age at visit\",\"roKuXYfw1BW\",null,\"2017-05-22T22:26:36.224\",1151265,\"rw------\",null,1151265,null,null,{},{},{},null],[1203028,\"XX MAL RDT TRK - Age\",\"XX MAL RDT - Age\",null,null,\"INTEGER\",\"SUM\",null,3,null,\"TRACKER\",\"2018-08-28T12:22:38.815\",true,null,\"vcSXdYGa5St\",null,\"2018-08-28T12:22:38.815\",1151265,\"rw------\",null,1151265,{},null,{},{},{},null]]}}",
+        "responseSize": 9604,
+        "responseHeaders": {
+            "access-control-allow-credentials": "true",
+            "access-control-allow-origin": "http://localhost:3000",
+            "vary": "Origin",
+            "access-control-expose-headers": "ETag, Location",
+            "content-type": "application/json;charset=utf-8",
+            "cache-control": "max-age=1209600, public",
+            "x-content-type-options": "nosniff",
+            "x-xss-protection": "1; mode=block",
+            "x-frame-options": "SAMEORIGIN",
+            "server": "Jetty(10.0.7)"
+        }
+    }
+]
