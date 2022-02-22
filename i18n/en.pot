@@ -35,8 +35,8 @@ msgstr "copy link"
 msgid "Variables"
 msgstr "Variables"
 
-msgid "Refresh Query"
-msgstr "Refresh Query"
+msgid "Refresh query"
+msgstr "Refresh query"
 
 msgid "undefined"
 msgstr "undefined"

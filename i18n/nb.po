@@ -11,6 +11,9 @@ msgstr ""
 "Language: nb\n"
 "X-Generator: Poedit 2.4.2\n"
 
+msgid "Search within results"
+msgstr "Søk i resultatene"
+
 msgid "Variables must be filled out"
 msgstr "Variabler må oppgis"
 
@@ -35,7 +38,7 @@ msgstr "kopier lenken"
 msgid "Variables"
 msgstr "Variabler"
 
-msgid "Refresh Query"
+msgid "Refresh query"
 msgstr "Oppdater spørring"
 
 msgid "undefined"
@@ -47,8 +50,17 @@ msgstr "Tilbake"
 msgid "name"
 msgstr "navn"
 
-msgid "Select a SQL query to get started"
-msgstr "Velg en SQL-spørring for å komme i gang"
+msgid "SQL Views"
+msgstr "SQL visninger"
+
+msgid "Search for a SQL view"
+msgstr "Søk etter en SQL visning"
+
+msgid "row"
+msgstr "rad"
+
+msgid "rows"
+msgstr "rader"
 
 msgid "Download CSV"
 msgstr "Last ned CSV"
@@ -56,8 +68,11 @@ msgstr "Last ned CSV"
 msgid "All"
 msgstr "Alle"
 
-msgid "Displaying {{current}} of {{total}} rows"
-msgstr "{{current}} av {{total}} rader vises"
+msgid "Displaying {{total}} {{rowSingularPlural}}"
+msgstr "{{total}} {{rowSingularPlural}} vises"
+
+msgid "Displaying {{current}} of {{total}} {{rowSingularPlural}}"
+msgstr "{{current}} av {{total}} {{rowSingularPlural}} vises"
 
 msgid "Page {{position}} of {{maxPage}}"
 msgstr "Side {{position}} av {{maxPage}}"

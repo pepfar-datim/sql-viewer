@@ -56,7 +56,7 @@ const VariablesDrawerMenu = ({
                                         type="submit"
                                         primary
                                     >
-                                        {i18n.t('Refresh Query')}
+                                        {i18n.t('Refresh query')}
                                     </Button>
                                 </div>
                             )}

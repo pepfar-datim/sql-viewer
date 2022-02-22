@@ -41,7 +41,7 @@ const TableQueryRow = ({
                                 refreshQuery()
                             }}
                         >
-                            {i18n.t('Refresh Query')}
+                            {i18n.t('Refresh query')}
                         </Button>
                     </div>
                 </div>
