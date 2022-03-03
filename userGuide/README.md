@@ -27,6 +27,8 @@ To open a view, click the text of the view’s name. You can also click on the b
 ### Views
 When you open a SQL view you will be brought to a screen with the results of the view displayed in a table.
 
+<img src="/userGuide/images/sample_view.png?raw=true" alt="Sample data display from SQL view" />
+
 ### Queries
 When you open a query which contains variables, you will see the message that ”Variables must be filled out”:
 
