@@ -1,15 +1,17 @@
-import { useConfig, useDataEngine, useDataQuery } from '@dhis2/app-runtime'
+import { useConfig, useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { Button, CircularLoader, IconArrowLeft24, IconMore24 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
-import React, { useState, createRef } from 'react'
+import React, { useEffect, useState, createRef } from 'react'
 import { Link } from 'react-router-dom'
 import { executeQuery } from '../../api/miscellaneous'
 import {
     extractVariables,
     getVariablesLink,
+    populateDefaultVariables,
 } from '../../services/extractVariables'
 import { useQuery } from '../../services/useQuery'
+import { useDataStoreConfig } from '../ConfigProvider'
 import Layout from '../Layout'
 import DataWrapper from './DataWrapper'
 import ErrorMessage from './ErrorMessage'
@@ -23,7 +25,7 @@ const sqlViewDetail = {
         id: ({ id }) => id,
         params: {
             paging: 'false',
-            fields: 'id,name,type,sqlQuery',
+            fields: 'id,name,type,sqlQuery,attributeValues',
         },
     },
 }
@@ -56,6 +58,7 @@ const BackButton = () => (
 
 const ViewData = ({ match }) => {
     const { baseUrl } = useConfig()
+    const { config, waiting } = useDataStoreConfig()
     const query = useQuery()
     const engine = useDataEngine()
     const id = match.params.id
@@ -65,13 +68,39 @@ const ViewData = ({ match }) => {
     const [linksMenuOpen, setLinksMenuOpen] = useState(false)
     const [refreshQuery, setRefreshQuery] = useState(null)
     const [executeError, setExecuteError] = useState(null)
+    const [data, setData] = useState(null)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
 
     const toggleLinksMenu = () => {
         setLinksMenuOpen(!linksMenuOpen)
     }
 
+    useEffect(() => {
+        if (!waiting) {
+            const getEngineResults = async id => {
+                try {
+                    const { sqlView } = await engine.query(sqlViewDetail, {
+                        variables: { id: id },
+                    })
+                    prepView({ sqlView })
+                } catch (e) {
+                    setError(e)
+                } finally {
+                    setLoading(false)
+                }
+            }
+            getEngineResults(id)
+        }
+    }, [config, waiting, id])
+
     const prepView = async d => {
-        const extractedVariables = extractVariables(d.sqlView.sqlQuery)
+        let extractedVariables = extractVariables(d.sqlView.sqlQuery)
+        extractedVariables = populateDefaultVariables(
+            extractedVariables,
+            d.sqlView.attributeValues,
+            config?.defaultsAttributeId
+        )
 
         if (
             d.sqlView.type !== QUERY_TYPE ||
@@ -98,16 +127,13 @@ const ViewData = ({ match }) => {
                 setExecuteError(e)
             } finally {
                 setQueryExecuted(true)
+                setData(d)
             }
         } else {
             setQueryExecuted(true)
+            setData(d)
         }
     }
-
-    const { loading, error, data } = useDataQuery(sqlViewDetail, {
-        variables: { id: id },
-        onComplete: prepView,
-    })
 
     const updateVariable = newVariable => {
         const updatedVariables = Object.assign({}, variables, newVariable)
@@ -119,6 +145,29 @@ const ViewData = ({ match }) => {
         setVariables(updatedVariables)
     }
 
+    const resetDefaults = () => {
+        const tempVariables = populateDefaultVariables(
+            variables,
+            data.sqlView.attributeValues,
+            config?.defaultsAttributeId
+        )
+
+        const linkVariables = Object.keys(tempVariables).reduce((linkV, v) => {
+            if (tempVariables[v]) {
+                linkV[v] = tempVariables[v]
+            }
+            return linkV
+        }, {})
+
+        window.history.pushState(
+            null,
+            null,
+            getVariablesLink({ id, variables: linkVariables, baseUrl })
+        )
+
+        setVariables(tempVariables)
+    }
+
     const toggleVariableDrawer = () => {
         setVariablesDrawerOpen(!variablesDrawerOpen)
     }
@@ -128,7 +177,7 @@ const ViewData = ({ match }) => {
     return (
         <Layout>
             <>
-                {(loading || !queryExecuted) && <CircularLoader />}
+                {!error && (loading || !queryExecuted) && <CircularLoader />}
                 {error && (
                     <>
                         <div className="marginWrap flexWrap">
@@ -151,6 +200,10 @@ const ViewData = ({ match }) => {
                                 toggleVariableDrawer={toggleVariableDrawer}
                                 updateVariable={updateVariable}
                                 refreshQuery={refreshQuery}
+                                resetDefaults={resetDefaults}
+                                defaultsAvailable={
+                                    config?.defaultsAttributeId !== undefined
+                                }
                             />
                             <div className="main">
                                 <div className="marginWrap">

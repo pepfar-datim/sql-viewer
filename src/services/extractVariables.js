@@ -34,3 +34,35 @@ export const getVariablesLink = ({ id, variables, baseUrl }) => {
     }
     return linkURL
 }
+
+export const populateDefaultVariables = (
+    extractedVariables,
+    attributeValues,
+    attributeID
+) => {
+    const variables = { ...extractedVariables }
+    Object.keys(variables).forEach(k => (variables[k] = null))
+
+    try {
+        let defaultVariablesInfo
+
+        if (attributeID) {
+            defaultVariablesInfo = attributeValues.filter(
+                a => a.attribute.id === attributeID
+            )[0]
+        }
+
+        if (defaultVariablesInfo) {
+            const defaultVariables = JSON.parse(defaultVariablesInfo.value)
+            Object.keys(variables).forEach(k => {
+                if (defaultVariables[k]) {
+                    variables[k] = defaultVariables[k]
+                }
+            })
+        }
+        return variables
+    } catch (e) {
+        console.log(e)
+        return { ...extractedVariables }
+    }
+}

@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-11-08T14:33:13.587Z\n"
-"PO-Revision-Date: 2021-11-08T14:33:13.588Z\n"
+"POT-Creation-Date: 2022-07-19T12:54:33.188Z\n"
+"PO-Revision-Date: 2022-07-19T12:54:33.188Z\n"
 
 msgid "Search within results"
 msgstr "Search within results"
@@ -37,6 +37,21 @@ msgstr "Variables"
 
 msgid "Refresh query"
 msgstr "Refresh query"
+
+msgid "Defaults"
+msgstr "Defaults"
+
+msgid "Save the values above as default values for this SQL view"
+msgstr "Save the values above as default values for this SQL view"
+
+msgid "Save"
+msgstr "Save"
+
+msgid "Reset the values to the default values saved for this SQL view"
+msgstr "Reset the values to the default values saved for this SQL view"
+
+msgid "Reset"
+msgstr "Reset"
 
 msgid "undefined"
 msgstr "undefined"

@@ -13,3 +13,4 @@ export const convertGzip = inputString => {
     } catch {
         return inputString
     }
+}
