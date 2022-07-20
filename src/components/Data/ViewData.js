@@ -1,4 +1,4 @@
-import { useConfig, useDataEngine } from '@dhis2/app-runtime'
+import { useAlert, useConfig, useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { Button, CircularLoader, IconArrowLeft24, IconMore24 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
@@ -6,12 +6,14 @@ import React, { useEffect, useState, createRef } from 'react'
 import { Link } from 'react-router-dom'
 import { executeQuery } from '../../api/miscellaneous'
 import {
+    checkIfAllNull,
     extractVariables,
     getVariablesLink,
     populateDefaultVariables,
 } from '../../services/extractVariables'
 import { useQuery } from '../../services/useQuery'
 import { useDataStoreConfig } from '../ConfigProvider'
+import { useUserInfo } from '../UserInfoProvider'
 import Layout from '../Layout'
 import DataWrapper from './DataWrapper'
 import ErrorMessage from './ErrorMessage'
@@ -23,10 +25,31 @@ const sqlViewDetail = {
     sqlView: {
         resource: 'sqlViews',
         id: ({ id }) => id,
-        params: {
-            paging: 'false',
-            fields: 'id,name,type,sqlQuery,attributeValues',
-        },
+    },
+}
+
+const sqlUpdate = {
+    resource: 'sqlViews',
+    id: ({ id }) => id,
+    type: 'update',
+    partial: false,
+    params: { mergeMode: 'REPLACE' },
+    data: ({ data }) => data,
+}
+
+const ALERT_MESSAGES = {
+    resetSuccess: {
+        msg: i18n.t(
+            'Variables have been reset. Refresh query to refresh data.'
+        ),
+    },
+    saveFail: {
+        msg: i18n.t('Default variables could not be updated.'),
+        options: { warning: true },
+    },
+    saveSuccess: {
+        msg: i18n.t('Default variables updated.'),
+        options: { success: true },
     },
 }
 
@@ -58,7 +81,8 @@ const BackButton = () => (
 
 const ViewData = ({ match }) => {
     const { baseUrl } = useConfig()
-    const { config, waiting } = useDataStoreConfig()
+    const { config, configWaiting } = useDataStoreConfig()
+    const { userInfo, userWaiting } = useUserInfo()
     const query = useQuery()
     const engine = useDataEngine()
     const id = match.params.id
@@ -71,13 +95,18 @@ const ViewData = ({ match }) => {
     const [data, setData] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const [defaultsAvailable, setDefaultsAvailable] = useState(false)
+    const { show: showAlert } = useAlert(
+        ({ msg }) => msg,
+        ({ options }) => ({ ...options, duration: 3000 })
+    )
 
     const toggleLinksMenu = () => {
         setLinksMenuOpen(!linksMenuOpen)
     }
 
     useEffect(() => {
-        if (!waiting) {
+        if (!configWaiting) {
             const getEngineResults = async id => {
                 try {
                     const { sqlView } = await engine.query(sqlViewDetail, {
@@ -92,15 +121,27 @@ const ViewData = ({ match }) => {
             }
             getEngineResults(id)
         }
-    }, [config, waiting, id])
+    }, [config, configWaiting, id])
 
     const prepView = async d => {
         let extractedVariables = extractVariables(d.sqlView.sqlQuery)
-        extractedVariables = populateDefaultVariables(
-            extractedVariables,
-            d.sqlView.attributeValues,
-            config?.defaultsAttributeId
-        )
+        if (config?.defaultsAttributeId) {
+            try {
+                extractedVariables = populateDefaultVariables(
+                    extractedVariables,
+                    d.sqlView.attributeValues,
+                    config?.defaultsAttributeId
+                )
+                if (!checkIfAllNull(extractedVariables)) {
+                    setDefaultsAvailable(true)
+                }
+            } catch (e) {
+                showAlert({
+                    msg: e.message,
+                    options: { warning: true, duration: 3000 },
+                })
+            }
+        }
 
         if (
             d.sqlView.type !== QUERY_TYPE ||
@@ -146,26 +187,57 @@ const ViewData = ({ match }) => {
     }
 
     const resetDefaults = () => {
-        const tempVariables = populateDefaultVariables(
-            variables,
-            data.sqlView.attributeValues,
-            config?.defaultsAttributeId
-        )
+        try {
+            const tempVariables = populateDefaultVariables(
+                variables,
+                data.sqlView.attributeValues,
+                config?.defaultsAttributeId
+            )
 
-        const linkVariables = Object.keys(tempVariables).reduce((linkV, v) => {
-            if (tempVariables[v]) {
-                linkV[v] = tempVariables[v]
+            window.history.pushState(
+                null,
+                null,
+                getVariablesLink({ id, variables: tempVariables, baseUrl })
+            )
+
+            setVariables(tempVariables)
+            showAlert(ALERT_MESSAGES.resetSuccess)
+        } catch (e) {
+            showAlert({ msg: e.message, options: { warning: true } })
+        }
+    }
+
+    const saveDefaults = async () => {
+        try {
+            const filteredAttributeValues = data.sqlView.attributeValues.filter(
+                av => av.attribute.id !== config?.defaultsAttributeId
+            )
+            let newVariables = {
+                attribute: { id: config?.defaultsAttributeId },
+                value: JSON.stringify(variables),
             }
-            return linkV
-        }, {})
+            let newSQLView = { ...data.sqlView }
+            newSQLView.attributeValues = [
+                ...filteredAttributeValues,
+                newVariables,
+            ]
 
-        window.history.pushState(
-            null,
-            null,
-            getVariablesLink({ id, variables: linkVariables, baseUrl })
-        )
-
-        setVariables(tempVariables)
+            let response = await engine.mutate(sqlUpdate, {
+                variables: { id: data.sqlView.id, data: newSQLView },
+            })
+            if (
+                response?.httpStatusCode === undefined ||
+                response?.httpStatusCode < 200 ||
+                response?.httpStatusCode >= 400
+            ) {
+                showAlert(ALERT_MESSAGES.saveFail)
+            } else {
+                showAlert(ALERT_MESSAGES.saveSuccess)
+                setData({ sqlView: newSQLView })
+            }
+        } catch (e) {
+            showAlert(ALERT_MESSAGES.saveFail)
+        }
     }
 
     const toggleVariableDrawer = () => {
@@ -186,7 +258,7 @@ const ViewData = ({ match }) => {
                         <ErrorMessage error={error} />
                     </>
                 )}
-                {data && queryExecuted && (
+                {userInfo && data && queryExecuted && (
                     <div className="container">
                         <div
                             className={
@@ -201,8 +273,14 @@ const ViewData = ({ match }) => {
                                 updateVariable={updateVariable}
                                 refreshQuery={refreshQuery}
                                 resetDefaults={resetDefaults}
-                                defaultsAvailable={
+                                defaultsConfigured={
                                     config?.defaultsAttributeId !== undefined
+                                }
+                                defaultsAvailable={defaultsAvailable}
+                                saveDefaults={saveDefaults}
+                                allowSave={
+                                    userInfo.superuser ||
+                                    data?.sharing?.owner === userInfo?.id
                                 }
                             />
                             <div className="main">

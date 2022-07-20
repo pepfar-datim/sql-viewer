@@ -20,6 +20,9 @@ const VariablesDrawerMenu = ({
     refreshQuery,
     resetDefaults,
     defaultsAvailable,
+    defaultsConfigured,
+    saveDefaults,
+    allowSave,
 }) => {
     const handleRefresh = () => {
         refreshQuery(variables)
@@ -67,7 +70,7 @@ const VariablesDrawerMenu = ({
                                     </Button>
                                 </div>
                             )}
-                            {defaultsAvailable && (
+                            {defaultsConfigured && (
                                 <div className="rightButtonOuterLast">
                                     <div className="buttonStripWrapper">
                                         <span>{i18n.t('Defaults')}</span>
@@ -80,23 +83,27 @@ const VariablesDrawerMenu = ({
                                             )}
                                         >
                                             <Button
-                                                dataTest="refresh-query-left"
+                                                dataTest="save-defaults-button"
                                                 icon={<IconSave24 />}
                                                 small
+                                                onClick={saveDefaults}
+                                                disabled={!allowSave}
                                             >
                                                 {i18n.t('Save')}
                                             </Button>
                                         </Tooltip>
+
                                         <Tooltip
                                             content={i18n.t(
                                                 'Reset the values to the default values saved for this SQL view'
                                             )}
                                         >
                                             <Button
-                                                dataTest="refresh-query-left"
+                                                dataTest="reset-defaults-button"
                                                 icon={<IconRedo24 />}
                                                 small
                                                 onClick={resetDefaults}
+                                                disabled={!defaultsAvailable}
                                             >
                                                 {i18n.t('Reset')}
                                             </Button>
@@ -153,9 +160,12 @@ const VariablesDrawerMenu = ({
 }
 
 VariablesDrawerMenu.propTypes = {
+    allowSave: PropTypes.bool,
     defaultsAvailable: PropTypes.bool,
+    defaultsConfigured: PropTypes.bool,
     refreshQuery: PropTypes.func,
     resetDefaults: PropTypes.func,
+    saveDefaults: PropTypes.func,
     toggleVariableDrawer: PropTypes.func,
     updateVariable: PropTypes.func,
     variables: PropTypes.object,

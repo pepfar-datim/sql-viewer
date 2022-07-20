@@ -12,7 +12,7 @@ export const ConfigProviderCtx = createContext({})
 
 const ConfigProvider = ({ children }) => {
     const [config, setConfig] = useState({})
-    const [waiting, setWaiting] = useState(true)
+    const [configWaiting, setWaiting] = useState(true)
     const engine = useDataEngine()
 
     useEffect(() => {
@@ -36,7 +36,7 @@ const ConfigProvider = ({ children }) => {
         <ConfigProviderCtx.Provider
             value={{
                 config: config,
-                waiting: waiting,
+                configWaiting: configWaiting,
             }}
         >
             {children}

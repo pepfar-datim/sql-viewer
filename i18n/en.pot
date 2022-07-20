@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-07-19T12:54:33.188Z\n"
-"PO-Revision-Date: 2022-07-19T12:54:33.188Z\n"
+"POT-Creation-Date: 2022-07-20T16:52:08.431Z\n"
+"PO-Revision-Date: 2022-07-20T16:52:08.431Z\n"
 
 msgid "Search within results"
 msgstr "Search within results"
@@ -56,6 +56,15 @@ msgstr "Reset"
 msgid "undefined"
 msgstr "undefined"
 
+msgid "Variables have been reset. Refresh query to refresh data."
+msgstr "Variables have been reset. Refresh query to refresh data."
+
+msgid "Default variables could not be updated."
+msgstr "Default variables could not be updated."
+
+msgid "Default variables updated."
+msgstr "Default variables updated."
+
 msgid "Back"
 msgstr "Back"
 
@@ -97,3 +106,6 @@ msgstr "Next"
 
 msgid "Rows to display"
 msgstr "Rows to display"
+
+msgid "Defaults are invalid. Please save new defaults or fill out manually."
+msgstr "Defaults are invalid. Please save new defaults or fill out manually."
