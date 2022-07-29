@@ -1,11 +1,14 @@
 import { DataQuery } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import { Button, CircularLoader, IconMore24 } from '@dhis2/ui'
+import { Button, CircularLoader, IconMore24, IconSettings24 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { createRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useDataStoreConfig } from '../ConfigProvider'
 import LinksMenu from '../Data/LinksMenu'
 import CustomTable from '../Table/CustomTable'
+import { useUserInfo } from '../UserInfoProvider'
+import SettingsModal from './SettingsModal'
 
 const sqlViewsQuery = {
     sql: {
@@ -61,12 +64,37 @@ const SelectQuery = () => {
         { name: 'uid', hidden: true },
     ]
 
+    const { userInfo } = useUserInfo()
+    const { config } = useDataStoreConfig()
+    const [settingsModalOpen, setSettingsModalOpen] = useState(false)
+
     return (
         <DataQuery query={sqlViewsQuery}>
             {({ loading, error, data }) => (
                 <>
                     <div className="innerContainer">
-                        <h1 className="titleText">{i18n.t('SQL Views')}</h1>
+                        {settingsModalOpen && (
+                            <SettingsModal
+                                setSettingsModalOpen={setSettingsModalOpen}
+                            />
+                        )}
+
+                        <div className="headerContainer">
+                            <h1 className="titleText">{i18n.t('SQL Views')}</h1>
+                            {userInfo?.superuser &&
+                                !config?.defaultsAttributeId && (
+                                    <div className="rightButton">
+                                        <Button
+                                            dataTest="settings-button"
+                                            icon={<IconSettings24 />}
+                                            small
+                                            onClick={() => {
+                                                setSettingsModalOpen(true)
+                                            }}
+                                        />
+                                    </div>
+                                )}
+                        </div>
                         {loading && <CircularLoader />}
                         {error && <span>{`Error: ${error.message}`}</span>}
                         {data && (
@@ -118,6 +146,13 @@ const SelectQuery = () => {
                             color: var(--colors-grey800);
                             margin: var(--spacers-dp24) 0 var(--spacers-dp12);
                             line-height: 20px;
+                        }
+                        .headerContainer {
+                            display: flex;
+                            align-items: center;
+                        }
+                        .rightButton {
+                            margin-left: auto;
                         }
                     `}</style>
                 </>

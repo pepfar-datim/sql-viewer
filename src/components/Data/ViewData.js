@@ -13,8 +13,8 @@ import {
 } from '../../services/extractVariables'
 import { useQuery } from '../../services/useQuery'
 import { useDataStoreConfig } from '../ConfigProvider'
-import { useUserInfo } from '../UserInfoProvider'
 import Layout from '../Layout'
+import { useUserInfo } from '../UserInfoProvider'
 import DataWrapper from './DataWrapper'
 import ErrorMessage from './ErrorMessage'
 import LinksMenu from './LinksMenu'
@@ -82,7 +82,7 @@ const BackButton = () => (
 const ViewData = ({ match }) => {
     const { baseUrl } = useConfig()
     const { config, configWaiting } = useDataStoreConfig()
-    const { userInfo, userWaiting } = useUserInfo()
+    const { userInfo } = useUserInfo()
     const query = useQuery()
     const engine = useDataEngine()
     const id = match.params.id
@@ -212,17 +212,17 @@ const ViewData = ({ match }) => {
             const filteredAttributeValues = data.sqlView.attributeValues.filter(
                 av => av.attribute.id !== config?.defaultsAttributeId
             )
-            let newVariables = {
+            const newVariables = {
                 attribute: { id: config?.defaultsAttributeId },
                 value: JSON.stringify(variables),
             }
-            let newSQLView = { ...data.sqlView }
+            const newSQLView = { ...data.sqlView }
             newSQLView.attributeValues = [
                 ...filteredAttributeValues,
                 newVariables,
             ]
 
-            let response = await engine.mutate(sqlUpdate, {
+            const response = await engine.mutate(sqlUpdate, {
                 variables: { id: data.sqlView.id, data: newSQLView },
             })
             if (

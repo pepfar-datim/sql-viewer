@@ -1,10 +1,10 @@
 import React from 'react'
 import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 import ConfigProvider from './ConfigProvider'
-import UserInfoProvider from './UserInfoProvider'
 import ViewData from './Data/ViewData'
 import Layout from './Layout'
 import SelectQuery from './Selection/SelectQuery'
+import UserInfoProvider from './UserInfoProvider'
 import '../locales'
 
 const Main = () => {

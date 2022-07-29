@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-07-20T16:52:08.431Z\n"
-"PO-Revision-Date: 2022-07-20T16:52:08.431Z\n"
+"POT-Creation-Date: 2022-07-29T14:31:45.194Z\n"
+"PO-Revision-Date: 2022-07-29T14:31:45.194Z\n"
 
 msgid "Search within results"
 msgstr "Search within results"
@@ -76,6 +76,25 @@ msgstr "SQL Views"
 
 msgid "Search for a SQL view"
 msgstr "Search for a SQL view"
+
+msgid "Attribute has been created. App will reload shortly."
+msgstr "Attribute has been created. App will reload shortly."
+
+msgid "Attribute could not be created."
+msgstr "Attribute could not be created."
+
+msgid ""
+"Do you want to create an attribute that allows saving default variable "
+"values?"
+msgstr ""
+"Do you want to create an attribute that allows saving default variable "
+"values?"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Create"
+msgstr "Create"
 
 msgid "Download CSV"
 msgstr "Download CSV"
