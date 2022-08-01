@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-11-08T14:33:13.587Z\n"
-"PO-Revision-Date: 2021-11-08T14:33:13.588Z\n"
+"POT-Creation-Date: 2022-07-29T14:31:45.194Z\n"
+"PO-Revision-Date: 2022-07-29T14:31:45.194Z\n"
 
 msgid "Search within results"
 msgstr "Search within results"
@@ -38,8 +38,32 @@ msgstr "Variables"
 msgid "Refresh query"
 msgstr "Refresh query"
 
+msgid "Defaults"
+msgstr "Defaults"
+
+msgid "Save the values above as default values for this SQL view"
+msgstr "Save the values above as default values for this SQL view"
+
+msgid "Save"
+msgstr "Save"
+
+msgid "Reset the values to the default values saved for this SQL view"
+msgstr "Reset the values to the default values saved for this SQL view"
+
+msgid "Reset"
+msgstr "Reset"
+
 msgid "undefined"
 msgstr "undefined"
+
+msgid "Variables have been reset. Refresh query to refresh data."
+msgstr "Variables have been reset. Refresh query to refresh data."
+
+msgid "Default variables could not be updated."
+msgstr "Default variables could not be updated."
+
+msgid "Default variables updated."
+msgstr "Default variables updated."
 
 msgid "Back"
 msgstr "Back"
@@ -52,6 +76,25 @@ msgstr "SQL Views"
 
 msgid "Search for a SQL view"
 msgstr "Search for a SQL view"
+
+msgid "Attribute has been created. App will reload shortly."
+msgstr "Attribute has been created. App will reload shortly."
+
+msgid "Attribute could not be created."
+msgstr "Attribute could not be created."
+
+msgid ""
+"Do you want to create an attribute that allows saving default variable "
+"values?"
+msgstr ""
+"Do you want to create an attribute that allows saving default variable "
+"values?"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Create"
+msgstr "Create"
 
 msgid "Download CSV"
 msgstr "Download CSV"
@@ -82,3 +125,6 @@ msgstr "Next"
 
 msgid "Rows to display"
 msgstr "Rows to display"
+
+msgid "Defaults are invalid. Please save new defaults or fill out manually."
+msgstr "Defaults are invalid. Please save new defaults or fill out manually."

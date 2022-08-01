@@ -31,6 +31,7 @@ const DataWrapper = ({
     const [variablesUsed, setVariablesUsed] = useState({})
     const [executeError, setExecuteError] = useState(initialExecuteError)
     const engine = useDataEngine()
+
     const { loading, error, data, refetch } = useDataQuery(sqlDataQuery, {
         variables: {
             id: `${id}/data`,
