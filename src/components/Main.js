@@ -1,6 +1,6 @@
 import React from 'react'
 import { HashRouter as Router, Switch, Route } from 'react-router-dom'
-import ConfigProvider from './ConfigProvider'
+import AttributeProvider from './AttributeProvider'
 import ViewData from './Data/ViewData'
 import Layout from './Layout'
 import SelectQuery from './Selection/SelectQuery'
@@ -9,7 +9,7 @@ import '../locales'
 
 const Main = () => {
     return (
-        <ConfigProvider>
+        <AttributeProvider>
             <UserInfoProvider>
                 <Router>
                     <Switch>
@@ -30,7 +30,7 @@ const Main = () => {
                     </Switch>
                 </Router>
             </UserInfoProvider>
-        </ConfigProvider>
+            </AttributeProvider>
     )
 }
 

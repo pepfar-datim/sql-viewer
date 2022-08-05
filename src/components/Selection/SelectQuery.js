@@ -4,7 +4,7 @@ import { Button, CircularLoader, IconMore24, IconSettings24 } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React, { createRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useDataStoreConfig } from '../ConfigProvider'
+import { useAttribute } from '../AttributeProvider'
 import LinksMenu from '../Data/LinksMenu'
 import CustomTable from '../Table/CustomTable'
 import { useUserInfo } from '../UserInfoProvider'
@@ -22,7 +22,6 @@ const sqlViewsQuery = {
 
 const LinksButton = ({ id }) => {
     const moreButtonRef = createRef()
-
     const [linksMenuOpen, setLinksMenuOpen] = useState(false)
 
     const toggleLinksMenu = () => {
@@ -65,7 +64,7 @@ const SelectQuery = () => {
     ]
 
     const { userInfo } = useUserInfo()
-    const { config } = useDataStoreConfig()
+    const { attribute } = useAttribute()
     const [settingsModalOpen, setSettingsModalOpen] = useState(false)
 
     return (
@@ -82,7 +81,7 @@ const SelectQuery = () => {
                         <div className="headerContainer">
                             <h1 className="titleText">{i18n.t('SQL Views')}</h1>
                             {userInfo?.superuser &&
-                                !config?.defaultsAttributeId && (
+                                !attribute?.defaultsAttributeId && (
                                     <div className="rightButton">
                                         <Button
                                             dataTest="settings-button"
