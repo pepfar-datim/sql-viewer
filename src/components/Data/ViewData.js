@@ -12,7 +12,7 @@ import {
     populateDefaultVariables,
 } from '../../services/extractVariables'
 import { useQuery } from '../../services/useQuery'
-import { useDataStoreConfig } from '../ConfigProvider'
+import { useAttribute } from '../AttributeProvider'
 import Layout from '../Layout'
 import { useUserInfo } from '../UserInfoProvider'
 import DataWrapper from './DataWrapper'
@@ -81,7 +81,7 @@ const BackButton = () => (
 
 const ViewData = ({ match }) => {
     const { baseUrl } = useConfig()
-    const { config, configWaiting } = useDataStoreConfig()
+    const {attribute, attributeWaiting} = useAttribute()
     const { userInfo } = useUserInfo()
     const query = useQuery()
     const engine = useDataEngine()
@@ -106,7 +106,7 @@ const ViewData = ({ match }) => {
     }
 
     useEffect(() => {
-        if (!configWaiting) {
+        if (!attributeWaiting) {
             const getEngineResults = async id => {
                 try {
                     const { sqlView } = await engine.query(sqlViewDetail, {
@@ -121,16 +121,16 @@ const ViewData = ({ match }) => {
             }
             getEngineResults(id)
         }
-    }, [config, configWaiting, id])
+    }, [attribute, attributeWaiting, id])
 
     const prepView = async d => {
         let extractedVariables = extractVariables(d.sqlView.sqlQuery)
-        if (config?.defaultsAttributeId) {
+        if (attribute?.defaultsAttributeId) {
             try {
                 extractedVariables = populateDefaultVariables(
                     extractedVariables,
                     d.sqlView.attributeValues,
-                    config?.defaultsAttributeId
+                    attribute?.defaultsAttributeId
                 )
                 if (!checkIfAllNull(extractedVariables)) {
                     setDefaultsAvailable(true)
@@ -191,7 +191,7 @@ const ViewData = ({ match }) => {
             const tempVariables = populateDefaultVariables(
                 variables,
                 data.sqlView.attributeValues,
-                config?.defaultsAttributeId
+                attribute?.defaultsAttributeId
             )
 
             window.history.pushState(
@@ -210,10 +210,11 @@ const ViewData = ({ match }) => {
     const saveDefaults = async () => {
         try {
             const filteredAttributeValues = data.sqlView.attributeValues.filter(
-                av => av.attribute.id !== config?.defaultsAttributeId
+                av => av.attribute.id !== attribute?.defaultsAttributeId
+                
             )
             const newVariables = {
-                attribute: { id: config?.defaultsAttributeId },
+                attribute: { id: attribute?.defaultsAttributeId },
                 value: JSON.stringify(variables),
             }
             const newSQLView = { ...data.sqlView }
@@ -274,7 +275,7 @@ const ViewData = ({ match }) => {
                                 refreshQuery={refreshQuery}
                                 resetDefaults={resetDefaults}
                                 defaultsConfigured={
-                                    config?.defaultsAttributeId !== undefined
+                                    attribute?.defaultsAttributeId !== undefined
                                 }
                                 defaultsAvailable={defaultsAvailable}
                                 saveDefaults={saveDefaults}

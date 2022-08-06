@@ -11,19 +11,13 @@ import PropTypes from 'prop-types'
 import React from 'react'
 
 const DEFAULT_ATTIBUTE_NAME = 'default-sql-values'
+const DEFAULT_ATTRIBUTE_ID = 'sqlViewerDv'
 
 const attributeCreate = {
     resource: 'attributes',
     type: 'create',
     data: ({ data }) => data,
 }
-
-const dataStoreCreate = {
-    resource: 'dataStore/sqlViewer/config',
-    type: 'create',
-    data: ({ data }) => data,
-}
-
 const SettingsModal = ({ setSettingsModalOpen }) => {
     const engine = useDataEngine()
     const { show: showAlert } = useAlert(
@@ -38,19 +32,11 @@ const SettingsModal = ({ setSettingsModalOpen }) => {
                 name: DEFAULT_ATTIBUTE_NAME,
                 valueType: 'LONG_TEXT',
                 sqlViewAttribute: true,
+                id: DEFAULT_ATTRIBUTE_ID,
             }
             const attributeResponse = await engine.mutate(attributeCreate, {
                 variables: { data: defaultsAttribute },
             })
-
-            // if successful, post to create datastore (note: assumes datastore does not exist)
-            const datastoreContent = {
-                defaultsAttributeId: attributeResponse?.response?.uid,
-            }
-            await engine.mutate(dataStoreCreate, {
-                variables: { data: datastoreContent },
-            })
-
             showAlert({
                 msg: i18n.t('Attribute has been created. App will reload shortly.'),
                 options: { success: true },
