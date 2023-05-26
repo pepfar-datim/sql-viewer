@@ -8,7 +8,7 @@ The SQL Viewer app offers a user-friendly viewing experience for SQL views and S
 
 ## Installation on DHIS2
 
-1. Install the app via the [App Hub](https://apps.dhis2.org/user/app/a9c7c903-8b5c-43ea-a739-b8c6f9b30509) or by uploading into the DHIS2 App Management app the zip either from [our releases](https://github.com/pepfar-datim/sql-viewer/releases) or from `yarn build`
+1. [Install the app via the App Hub](https://apps.dhis2.org/app/a9c7c903-8b5c-43ea-a739-b8c6f9b30509) or by uploading into the DHIS2 App Management app the zip either from [our releases](https://github.com/pepfar-datim/sql-viewer/releases) or from `yarn build`
 2. Users need to be granted access to the app in order to be able to access it. To do this, go to DHIS2 Users > User role > [role] > Apps > select `SQLViewer app`. Make sure to do this on any roles for which you want users to have access to SQL Viewer. Note that access to individual SQL Views and SQL Queries as well as the underlying data is governed by the sharing of the underlying objects. Granting a user access to the SQL Viewer App allows a user access to the app to view item they already have access to. 
 
 ## Local Build and Development
